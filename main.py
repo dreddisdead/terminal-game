@@ -1,4 +1,6 @@
 #First portfolio project
+
+
 big_string = """
   _  _       _  _        _   
 | || | ___ | || | ___  | |  
@@ -8,18 +10,13 @@ big_string = """
 greeting = 'Welcome to the game!'
 
 print(big_string)
+
 print(greeting)
 
 user_name = input('What is your name?\n')
 greeting_user = f'Hello, {user_name}'
 
 print(greeting_user)
-print("""
-You are currently in a waiting room filled with interesting 
-characters. A woman at the front desk hands you a clipboard 
-with a form attatched and a pen. You find a place to sit and 
-start filling out the form.
-""")
 
 user_birthday = input('What is your date of birth (mm/dd):\n')
 
@@ -49,7 +46,8 @@ def zodiac_sign(birthday):
     return "Unknown"
 
 print(f"You're a {zodiac_sign(user_birthday)}")
-    
+
+
 
 
 
