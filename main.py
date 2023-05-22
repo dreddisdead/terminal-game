@@ -1,17 +1,24 @@
 
-
+import scenes as s
 import functions as f
 import os, sys
 import time
 import keyboard 
+import os
 
-def type_text(text):
+def set_terminal_size(width, height):
+    os.system(f'printf "\\e[8;{height};{width}t"')
+
+# Set terminal size to 96 columns and 46 rows
+set_terminal_size(96, 46)
+
+def type_text(text, delay=0.05):
     for char in text:
-        print(char, end='', flush=True)
+        sys.stdout.write(char)
         sys.stdout.flush()
-        time.sleep(0.07)  # Adjust the delay time as needed
-    print()  # Print a newline after the typed text
-
+        time.sleep(delay)
+    sys.stdout.write('\n')
+    sys.stdout.flush()
 
 ### Checks if being run on non-Windows system (Git Bash) and clears terminal
 def clear_screen():
@@ -26,40 +33,9 @@ def transition_to_scene(scene_ascii_art):
     time.sleep(2)  # Adjust the delay time as needed
 
 
-
-### screen size is 96x46
-big_string = """                                                                                        
------------------------------------------------------------------------------------------------                                                                                          
-                                           -                                              
-                                           *:  :*                                         
-                                          **:  -*+                                        
-                                          **-  -*+                                        
-                                :.   -:   =*-  =*=   :       :.                           
-                                :+   -*:  -*=  =*:  :=     :+=                            
-                   :=.         .**=  -**  .*=  +*.  +**   -**.         :-++               
-              -*-   .+*+.   :   .**:  +*:  *+  +*  .**:  -*+.   :-   :+*+:                
-               -**-   :+*-  -*=  .**  .*+  ++  *+  =*=  :*=   =*=  .=*+:   ::             
-                .=**-   -*+. :*+. :*+  =*. -*  *- .*+  :*=  .++:  -*+:   -+-              
-                   -**-   =*-  +*. -*- .*- .*  *: =*: :*-  :*=  :*+:  .-**=               
-                 :.  :+*-  :++. -*: -*: -*  *..*. *- .*-  =+. .++:  :=*=:                 
-                  ++:  .=*-  :+- .+- =*  +: +..* -+ .+: .+-  =+:  :++-.  .                
-           -=:     :=*=.  -+-  -+. =- =+ .: :..- -  +: -+. :+: .-*=.  :++.                
-            .=**+-    :++-  :+- .=- ::.=-=+*****++=-: =- .=: .=+:  :=*=-    :.            
-               :-+*+-.   :+=: .=- .--+****************=.-: :=-. :=+-:  .:=+**=--          
-                   .-=+=-.  -=-. :-*********************+.-. :==:  .-=**+-:.              
-           .-.=*+=-.   .:=+=: .::+************************-.-..:-++=-:.    .--:-.         
-             .:--=+***=-:.  :--.***************************-.==-.   .:-=+***+=:.          
-       -:::...       ..:-===-. +****************************: :-====--::.         ...     
-    :==++++++++**++++===---::.:*****************************+ .  ...::---===++*******+--. 
-                     ....:::-:-****************************** ---:::::::.......           
------------------------------------------------------------------------------------------------ 
-        WELCOME   TO   THE    GAME   ISN'T   THIS   SUNRISE   JUST   BEAUTIFUL!!!!        
------------------------------------------------------------------------------------------------
-
-"""
 greeting = "You've got a long road ahead of you, traveler.\n" 
 
-print_ascii_art(big_string)
+print_ascii_art(s.sunrise_scene)
 
 type_text(greeting) 
 
@@ -67,37 +43,9 @@ time.sleep(2)
 
 user_name = input('What is your name?\n>')
 
-# image window 46x25
-new_scene = """
------------------------------------------------------------------------------------------------
-                            .==:=*%@@@@@%#+--**:       +=-            -+    #-            
-                           -+:*@@@@@@@@@@@@@%+:+*      .#=.           -+    #-            
-                          :=+@@@@@@@@@@@@@%%@@@*:*.     -++           -+    #-            
-                          +=@@@@@@@@@@@%+:-+:#@@%:%.     *+           -+    #-            
-                         .=%@@@@@@@@@*-   %:  -%@*-+     *+           -+    #-            
-                         --@@@@@@@#=     :#     =@:#     *+           -+   -#:            
-                         =-@@@@#=.    -=*%=      .**     ++           -+:+*-              
-                         --@#=.    -==. *.=+.     #+.    ++           -#*:                
-                        .+=.    :==.   .*  .+=    #+.    ++         .*#:                  
-                     :--.    :--:      *-    .=*-:#=.    ++       :**:                    
-                    *=::::===.        .%       .+-*=.    =+     -#+.                      
-                    :- .--:           +*------:::+%=.    =+   :#*:                        
-                     ==:              #........:::*=.    =+ -##.                          
-                  -+=:...            :+          -#=.    =*#+:                            
-                  =*:.::--------+*---*.        :#@@=:  .+%*                               
-                    +-          =*           :#@@@@=: =%@@=                               
-                    -%#:        *=         -*++*#@@+#@@@@#=                               
-                 .+%%%@@+       #.       -*-.:---=#%=@@@*+=                               
-               :++=:  :+%%-     %      -*:     :*%=. @@%.==                               
-             .*++:      .=%*.  .#    :*-     :*@+    @@= ==                               
-             *%=           =#+.:*  -+-     -*#=      @*  ==                               
-             #%:             -##+-*:     =#*-        @:  ==                                                           
------------------------------------------------------------------------------------------------
-        LOOKS    LIKE    WE    GOT    SOME    MAIL... I    WONDER    WHAT    IT    IS?
------------------------------------------------------------------------------------------------
-"""
 
-transition_to_scene(new_scene)
+
+transition_to_scene(s.mailbox_scene)
 
 #user_birthday = input('What is your date of birth (mm/dd):\n')
 
@@ -108,7 +56,7 @@ while True:
 
     if action == 'Look':
         # Look at mailbox
-        if look_counter >= 3:
+        if look_counter >= 2:
             type_text('You really enjoy looking at this mailbox.')
             time.sleep(1)
             type_text('As long as you are happy, I guess...')
@@ -126,12 +74,13 @@ while True:
         time.sleep(1)
         type_text('Oh wait.')
         time.sleep(1)
-        type_text('There is a letter for you. You open it.')
+        type_text('There is a letter for you.')
+        type_text('You open it.')
         break  # Exit the loop after the "Open" action
 
     elif action == 'Sunrise':
         # Return to sunrise scene
-        transition_to_scene(big_string)
+        transition_to_scene(s.sunrise_scene)
         break  # Exit the loop after the "Sunrise" action
 
     else:
