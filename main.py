@@ -52,7 +52,7 @@ transition_to_scene(s.mailbox_scene)
 #print(f"You're a {f.zodiac_sign(user_birthday)}")
 look_counter = 0
 while True:
-    action = input('(Look/Open/Sunrise)\n')
+    action = input('(Look/Open)\n')
 
     if action == 'Look':
         # Look at mailbox
@@ -78,13 +78,12 @@ while True:
         type_text('You open it.')
         break  # Exit the loop after the "Open" action
 
-    elif action == 'Sunrise':
-        # Return to sunrise scene
-        transition_to_scene(s.sunrise_scene)
-        break  # Exit the loop after the "Sunrise" action
-
     else:
         type_text('Invalid action. Please try again.')
+
+amended_letter = f"{s.letter_top}\n Dear {user_name}" + s.letter_from_anna
+
+transition_to_scene(amended_letter)
 
 
 
