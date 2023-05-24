@@ -75,6 +75,7 @@ while True:
         type_text('Oh wait.')
         time.sleep(1)
         type_text('There is a letter for you.')
+        time.sleep(1)
         type_text('You open it.')
         break  # Exit the loop after the "Open" action
 
@@ -85,6 +86,58 @@ amended_letter = f"{s.letter_top}\n Dear {user_name}" + s.letter_from_anna
 
 transition_to_scene(amended_letter)
 
+input("Press Enter to Continue")
+
+cafe = "el cafe"
+
+transition_to_scene(cafe)
+
+type_text('A few days later...', 0.08)
+
+type_text('You find yourself in line to order at a local cafe. Quite a nice place. ')
+time.sleep(1)
+type_text('To be honest')
+time.sleep(2)
+type_text("You're not entirely sure who you're looking for...")
+time.sleep(0.5)
+type_text("You're hoping they recognize you first.")
+time.sleep(1)
+
+
+
+while True:
+    action = input('(Look/Order/Menu)\n')
+
+    if action == 'Look':
+        # Look around in cafe
+        if look_counter >= 2:
+            type_text("Yes, yes...")
+            time.sleep(1)
+            type_text('A very nice cafe, indeed.')
+            time.sleep(2)
+            continue
+        else:
+            type_text("You look around at the beautiful art on nearly every wall.")
+            type_text("This place radiates passion and comfort elegantly.")
+
+            look_counter += 1
+            continue  # Continue to prompt for input again
+
+    elif action == 'Order':
+        # Make an order
+        type_text("Hello, Welcome to Abrianna's Cafe and Bakery!")
+        type_text("Home to tasty homemade sweets and heartwarming food.")
+        time.sleep(1)
+        type_text("What would you like to order?")
+        # Show featured items
+        time.sleep(1)
+        print(s.menu)
+        menu_items = []
+        menu_choice = input("Order Here:\n")
+        break  # Exit the loop after the "Open" action
+
+    else:
+        type_text('Invalid action. Please try again.')
 
 
 
