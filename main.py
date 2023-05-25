@@ -5,6 +5,7 @@ import os, sys
 import time
 import keyboard 
 import os
+### finish learning curses to fully transform terminal game
 import curses
 from curses import wrapper
 
