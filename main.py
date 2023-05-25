@@ -22,7 +22,7 @@ def type_text(text, delay=0.05):
 
 ### Checks if being run on non-Windows system (Git Bash) and clears terminal
 def clear_screen():
-    os.system('clear')
+    os.system('cls')
 
 def print_ascii_art(ascii_art):
     print(ascii_art)
@@ -32,16 +32,21 @@ def transition_to_scene(scene_ascii_art):
     print_ascii_art(scene_ascii_art)
     time.sleep(2)  # Adjust the delay time as needed
 
+user_name = input('What is your name?\n>')
 
-greeting = "You've got a long road ahead of you, traveler.\n" 
+
+greeting = f"A grand adventure awaits you, {user_name}.\n" 
 
 print_ascii_art(s.sunrise_scene)
 
-type_text(greeting) 
+type_text(greeting)
+type_text("Wake up.")
 
 time.sleep(2)
 
-user_name = input('What is your name?\n>')
+clear_screen()
+
+
 
 
 
@@ -103,10 +108,10 @@ time.sleep(0.5)
 type_text("You're hoping they recognize you first.")
 time.sleep(1)
 
-
-
+# look counter resets to zero
+look_counter = 0
 while True:
-    action = input('(Look/Order/Menu)\n')
+    action = input('(Look/Order)\n')
 
     if action == 'Look':
         # Look around in cafe
@@ -125,6 +130,8 @@ while True:
 
     elif action == 'Order':
         # Make an order
+        type_text("You walk up to the counter and the employee greets you.\n")
+        time.sleep(1)
         type_text("Hello, Welcome to Abrianna's Cafe and Bakery!")
         type_text("Home to tasty homemade sweets and heartwarming food.")
         time.sleep(1)
