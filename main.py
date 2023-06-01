@@ -91,11 +91,14 @@ class GameScenes:
   
     def typed_text(self, text):
         h, w = self.stdscr.getmaxyx()
-        y = h // 2
+        margin = 20  # Set your desired margin here
+        w = w - 2 * margin  # Adjust width for the margins
+        y = h // 2 - len(self.wrap_text(text, w)) // 2  # Adjust y to take into account the number of lines
+
         lines = self.wrap_text(text, w)
 
         for line in lines:
-            x = w // 2 - len(line) // 2
+            x = w // 2 - len(line) // 2 + margin  # Adjust x for the left margin
             if x < w and y < h:  # Ensure x and y are within the window's boundaries
                 for char in line:
                     self.stdscr.addstr(y, x, char)
@@ -105,8 +108,7 @@ class GameScenes:
                 y += 1
 
         self.stdscr.getch()
-
-        
+ 
 
     def center_text(self, text):
         h, w = self.stdscr.getmaxyx()
