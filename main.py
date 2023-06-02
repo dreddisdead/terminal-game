@@ -21,6 +21,13 @@ class PauseChoices(Enum):
     RESUME = "Resume"
     OPTIONS = "Options"
     QUIT = "Quit to Main Menu"
+    
+class BedroomChoices(Enum):
+    PILLOW = "Pillow"
+    DRESSER = "Dresser"
+    WINDOW = "Window"
+    BATHROOM = "Bathroom"
+    LEAVE = "Leave Bedroom"
 
 
 class Menu:
@@ -89,7 +96,7 @@ class GameScenes:
         return lines
 
   
-    def typed_text(self, text):
+    def typed_text(self, text, speed=0.05):
         h, w = self.stdscr.getmaxyx()
         margin = 20  # Set your desired margin here
         w = w - 2 * margin  # Adjust width for the margins
@@ -103,7 +110,7 @@ class GameScenes:
                 for char in line:
                     self.stdscr.addstr(y, x, char)
                     self.stdscr.refresh()
-                    time.sleep(0.01)
+                    time.sleep(speed)
                     x += 1
                 y += 1
 
@@ -160,7 +167,8 @@ class GameScenes:
 
         self.stdscr.nodelay(False)  # Return getch to blocking mode
         
-    def bedroom(self):
+    def bedroom(self, bedroom_menu):
+        glasses_found = False
         # No delay on getch
         self.stdscr.nodelay(True)
         # Display narration sequence
@@ -176,16 +184,56 @@ class GameScenes:
         for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four]:
             self.stdscr.clear()
             self.typed_text(observed_thought)
-            time.sleep(1)
+            time.sleep(1.4)
+    
+        # Add this new enumeration at the beginning of your code
+
+        # After the dialog finishes, show the new menu
+        bedroom_menu.print_menu()
+        while True:
+            chosen_bedroom_option = bedroom_menu.navigate()
+            if chosen_bedroom_option == BedroomChoices.PILLOW:
+                self.stdscr.clear()
+                self.typed_text("You look under the pillow...")
+                time.sleep(1)
+            elif chosen_bedroom_option == BedroomChoices.DRESSER:
+                self.stdscr.clear()
+                self.typed_text("You look in the dresser... It's empty.")
+                time.sleep(1)
+            elif chosen_bedroom_option == BedroomChoices.WINDOW:
+                self.stdscr.clear()
+                self.typed_text("You look out the window...")
+                time.sleep(1)
+            elif chosen_bedroom_option == BedroomChoices.BATHROOM:
+                self.stdscr.clear()
+                if not glasses_found:
+                    self.typed_text("You go to the bathroom... You found your glasses!")
+                    glasses_found = True
+                    time.sleep(1)
+                else:
+                    self.typed_text("You go to the bathroom... There's nothing else here.")
+                    time.sleep(1)
+            elif chosen_bedroom_option == BedroomChoices.LEAVE:
+                if glasses_found:
+                    self.stdscr.clear()
+                    self.typed_text("You leave the bedroom...")
+                    time.sleep(1)
+                    break  # Exits the bedroom menu and continue with the game
+                else:
+                    self.stdscr.clear()
+                    self.typed_text("You can't leave without your glasses!")
+                    time.sleep(1)
         # Reset getch to blocking mode
         self.stdscr.nodelay(False)
+            
   
 class Game:
     def __init__(self, stdscr):
         self.stdscr = stdscr
-        self.main_menu = Menu(stdscr, [MenuOptions.PLAY, MenuOptions.EXIT], "Main Menu")
-        self.pause_menu = Menu(stdscr, [PauseChoices.RESUME, PauseChoices.OPTIONS, PauseChoices.QUIT], "Paused")
-        self.exit_menu = Menu(stdscr, [ExitChoices.YES, ExitChoices.NO], "Are you sure you want to exit?")
+        self.main_menu = Menu(stdscr, list(MenuOptions), "Main Menu")
+        self.pause_menu = Menu(stdscr, list(PauseChoices), "Paused")
+        self.exit_menu = Menu(stdscr, list(ExitChoices), "Are you sure you want to exit?")
+        self.bedroom_menu = Menu(stdscr, list(BedroomChoices), "Find your glasses.")
         self.scenes = GameScenes(stdscr)
 
     def game_loop(self):
@@ -208,7 +256,8 @@ class Game:
     def play_game(self):
         while True:
             # insert the actual game logic here
-            self.scenes.bedroom()
+            self.scenes.bedroom(self.bedroom_menu)
+            
             key = self.stdscr.getch()
             if key == ord('p') or key == ord('P'):
                 self.pause_menu.print_menu()
