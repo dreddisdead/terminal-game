@@ -28,6 +28,14 @@ class BedroomChoices(Enum):
     WINDOW = "Window"
     BATHROOM = "Bathroom"
     LEAVE = "Leave Bedroom"
+    
+class HallwayChoices(Enum):
+    PAINTINGS_LEFT = "Paintings (Left)"
+    PAINTINGS_RIGHT = "Paintings (Right)"
+    DOOR = "Check out the Door"
+    CONTINUE = "Continue Down Hallway"
+    
+    
 
 
 class Menu:
@@ -185,8 +193,6 @@ class GameScenes:
             self.stdscr.clear()
             self.typed_text(observed_thought)
             time.sleep(1.4)
-    
-        # Add this new enumeration at the beginning of your code
 
         # After the dialog finishes, show the new menu
         bedroom_menu.print_menu()
@@ -225,6 +231,69 @@ class GameScenes:
                     time.sleep(1)
         # Reset getch to blocking mode
         self.stdscr.nodelay(False)
+        
+    def hallway(self, hallway_menu):
+        door_checked = False
+        # No delay on getch
+        self.stdscr.nodelay(True)
+        # Display narration sequence
+        for narration in ["You step out into the hallway", "Paintings and art line the walls left and right", "The hallway continues further down and to the right", "There, you'll reach the living room", "For now you just stand outside your bedroom"]:
+            self.stdscr.clear()
+            self.typed_text(narration)
+            time.sleep(1)
+        # Display thought sequence
+        thought_chunk_one = "You feel a sense of calm as you look at the paintings on the wall."
+        thought_chunk_two = "'What a nice place to live.' you think to yourself."
+        thought_chunk_three = "As you look down the hallway, you see a door ahead of you."
+        thought_chunk_four = "It's not quite closed all the way, and you can see a sliver of light coming from the other side."
+        for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four]:
+            self.stdscr.clear()
+            self.typed_text(observed_thought)
+            time.sleep(1.4)
+            
+        # After the dialog finishes, show the new menu
+        hallway_menu.print_menu()
+        while True:
+            chosen_hallway_option = hallway_menu.navigate()
+            if chosen_hallway_option == HallwayChoices.PAINTINGS_LEFT:
+                self.stdscr.clear()
+                self.typed_text("You look at the paintings on your left...")
+                time.sleep(1)
+            elif chosen_hallway_option == HallwayChoices.PAINTINGS_RIGHT:
+                self.stdscr.clear()
+                self.typed_text("You look at the paintings on your right...")
+                time.sleep(1)
+                
+            elif chosen_hallway_option == HallwayChoices.DOOR:
+                self.stdscr.clear()
+                if not door_checked:
+                    thought_chunk_one = "You approach the door... it's slightly ajar."
+                    thought_chunk_two = "Just enough to see through the crack..."
+                    thought_chunk_three = "There's no one in the room, but you can hear music playing."
+                    thought_chunk_four = "It sounds like it's coming from a radio."
+                    thought_chunk_five = "You can't make out the song, but it sounds familiar."
+                    for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five]:
+                        self.stdscr.clear()
+                        self.typed_text(observed_thought)
+                        time.sleep(1.4)
+                    door_checked = True
+                    
+                else:
+                    self.typed_text("There's nothing else to see here.")
+                    time.sleep(1)
+            elif chosen_hallway_option == HallwayChoices.CONTINUE:
+                if door_checked:
+                    self.stdscr.clear()
+                    self.typed_text("You continue down the hallway...")
+                    time.sleep(1)
+                    break  # Exits the hallway menu and continue with the game
+                else:
+                    self.stdscr.clear()
+                    self.typed_text("You should check out the rest of this area before you leave.")
+                    time.sleep(1)
+        # Reset getch to blocking mode
+        self.stdscr.nodelay(False)
+        
             
   
 class Game:
@@ -234,6 +303,7 @@ class Game:
         self.pause_menu = Menu(stdscr, list(PauseChoices), "Paused")
         self.exit_menu = Menu(stdscr, list(ExitChoices), "Are you sure you want to exit?")
         self.bedroom_menu = Menu(stdscr, list(BedroomChoices), "Find your glasses.")
+        self.hallway_menu = Menu(stdscr, list(HallwayChoices), "What will you do?")
         self.scenes = GameScenes(stdscr)
 
     def game_loop(self):
@@ -257,6 +327,7 @@ class Game:
         while True:
             # insert the actual game logic here
             self.scenes.bedroom(self.bedroom_menu)
+            self.scenes.hallway(self.hallway_menu)
             
             key = self.stdscr.getch()
             if key == ord('p') or key == ord('P'):
