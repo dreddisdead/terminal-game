@@ -35,6 +35,12 @@ class HallwayChoices(Enum):
     DOOR = "Check out the Door"
     CONTINUE = "Continue Down Hallway"
     
+class LivingRoomChoices(Enum):
+    LAUNDRY = "Laundry Room"
+    GARAGE = "Garage"
+    DOOR = "Check Bedroom Door"
+    CONTINUE = "Continue to Living Room"
+    
     
 
 
@@ -229,11 +235,7 @@ class GameScenes:
                     self.stdscr.clear()
                     self.typed_text("You can't leave without your glasses!")
                     time.sleep(1)
-        # Reset getch to blocking mode
-        self.stdscr.nodelay(False)
         
-    def hallway(self, hallway_menu):
-        door_checked = False
         # No delay on getch
         self.stdscr.nodelay(True)
         # Display narration sequence
@@ -253,6 +255,11 @@ class GameScenes:
             
         # After the dialog finishes, show the new menu
         hallway_menu.print_menu()
+        # Reset getch to blocking mode
+        self.stdscr.nodelay(False)
+        
+    def hallway(self, hallway_menu):
+        door_checked = False
         while True:
             chosen_hallway_option = hallway_menu.navigate()
             if chosen_hallway_option == HallwayChoices.PAINTINGS_LEFT:
@@ -291,9 +298,34 @@ class GameScenes:
                     self.stdscr.clear()
                     self.typed_text("You should check out the rest of this area before you leave.")
                     time.sleep(1)
+                    
         # Reset getch to blocking mode
         self.stdscr.nodelay(False)
         
+    ### NEW FUNCTION ### STOPPED HERE
+    def living_room(self, living_room_menu):
+        # Player leaves the starting halway, makes a right and enters living room
+        door_checked = False
+        # No delay on getch
+        self.stdscr.nodelay(True)
+        # Display narration sequence
+        for narration in ["You exit the hallway and you're met with a shorter hallway that opens into the living space", "A bedroom door to your right", "Ahead of you is the front door and living room"]:
+            self.stdscr.clear()
+            self.typed_text(narration)
+            time.sleep(1)
+        # Display thought sequence
+        thought_chunk_one = "You can hear the humming of the laundry machine coming from the other room."
+        thought_chunk_two = "Wait a moment."
+        thought_chunk_three = "It sounds like there's water running."
+        thought_chunk_four = "You wonder where it's coming from, it sounds serious."
+        for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four]:
+            self.stdscr.clear()
+            self.typed_text(observed_thought)
+            time.sleep(1.4)
+            
+        # After the dialog finishes, show the new menu
+        living_room_menu.print_menu()
+            
             
   
 class Game:
@@ -303,7 +335,8 @@ class Game:
         self.pause_menu = Menu(stdscr, list(PauseChoices), "Paused")
         self.exit_menu = Menu(stdscr, list(ExitChoices), "Are you sure you want to exit?")
         self.bedroom_menu = Menu(stdscr, list(BedroomChoices), "Find your glasses.")
-        self.hallway_menu = Menu(stdscr, list(HallwayChoices), "What will you do?")
+        self.hallway_menu = Menu(stdscr, list(HallwayChoices), "What's behind the door?")
+        self.living_room_menu = Menu(stdscr, list(LivingRoomChoices), "Look for the source of the water.")
         self.scenes = GameScenes(stdscr)
 
     def game_loop(self):
