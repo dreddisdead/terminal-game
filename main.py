@@ -35,11 +35,6 @@ class HallwayChoices(Enum):
     DOOR = "Check out the Door"
     CONTINUE = "Continue Down Hallway"
     
-class LivingRoomChoices(Enum):
-    LAUNDRY = "Laundry Room"
-    GARAGE = "Garage"
-    DOOR = "Check Bedroom Door"
-    CONTINUE = "Continue to Living Room"
     
     
 
@@ -110,7 +105,7 @@ class GameScenes:
         return lines
 
   
-    def typed_text(self, text, speed=0.05):
+    def typed_text(self, text, speed=0.02):
         h, w = self.stdscr.getmaxyx()
         margin = 20  # Set your desired margin here
         w = w - 2 * margin  # Adjust width for the margins
@@ -191,9 +186,9 @@ class GameScenes:
             self.typed_text(narration)
             time.sleep(1)
         # Display thought sequence
-        thought_chunk_one = "You wake up to the sun beaming through your eyelids, causing your eyes to be flooded with a bright red light as you squint for dear life."
+        thought_chunk_one = "Rudely awakened by sunlight's laser-show on your eyelids, you squint like you're deciphering a squirrel's handwriting."
         thought_chunk_two = "Thankfully, your vision was not permanently damaged!"
-        thought_chunk_three = "You find yourself in your bedroom, sitting at the edge of your bed. You need to find your glasses if you want to leave this room without injuring yourself."
+        thought_chunk_three = "Roused in your oh-so-spacious bedroom, perched on your bed like a precarious gargoyle. Better find those glasses unless you've always fancied life as a crash test dummy in a furniture warehouse."
         thought_chunk_four = "Seriously, you can't see anything without them."
         for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four]:
             self.stdscr.clear()
@@ -235,7 +230,44 @@ class GameScenes:
                     self.stdscr.clear()
                     self.typed_text("You can't leave without your glasses!")
                     time.sleep(1)
+                    
+        self.stdscr.nodelay(False)  # Return getch to blocking mode
         
+    def endless_hallway(self):
+            # Player realizes they're in an endless hallway
+            thought_chunk_one = "Something feels off..."
+            thought_chunk_two = "Wait a minute."
+            thought_chunk_three = "Every time you turn the corner, you're back in the same hallway."
+            thought_chunk_four = "Looking down the same hallway, you see the same door."
+            thought_chunk_five = "Over."
+            thought_chunk_six = "And over."
+            thought_chunk_seven = "And over."
+            thought_chunk_eight = "And over."
+            for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five, thought_chunk_six, thought_chunk_seven, thought_chunk_eight]:
+                self.stdscr.clear()
+                self.typed_text(observed_thought)
+                time.sleep(1.4)
+            
+            time.sleep(2)
+            self.stdscr.clear()
+            self.typed_text("You feel yourself begin to panic.")
+            time.sleep(1)
+            self.stdscr.clear()
+            self.typed_text("You take a deep breath.")
+            time.sleep(2)
+            self.stdscr.clear()
+            self.typed_text("You understand that you cannot escape this hallway.")
+            time.sleep(1)
+            self.stdscr.clear()
+            self.typed_text("There's only one way you can go.")
+            time.sleep(1)
+            self.stdscr.clear()
+            self.typed_text("Forward.")
+            time.sleep(1)
+            self.stdscr.clear() 
+        
+    def hallway(self, hallway_menu):
+        door_checked = False
         # No delay on getch
         self.stdscr.nodelay(True)
         # Display narration sequence
@@ -255,11 +287,7 @@ class GameScenes:
             
         # After the dialog finishes, show the new menu
         hallway_menu.print_menu()
-        # Reset getch to blocking mode
-        self.stdscr.nodelay(False)
         
-    def hallway(self, hallway_menu):
-        door_checked = False
         while True:
             chosen_hallway_option = hallway_menu.navigate()
             if chosen_hallway_option == HallwayChoices.PAINTINGS_LEFT:
@@ -291,7 +319,7 @@ class GameScenes:
             elif chosen_hallway_option == HallwayChoices.CONTINUE:
                 if door_checked:
                     self.stdscr.clear()
-                    self.typed_text("You continue down the hallway...")
+                    self.typed_text("You continue down the hallway and make a right...")
                     time.sleep(1)
                     break  # Exits the hallway menu and continue with the game
                 else:
@@ -299,32 +327,15 @@ class GameScenes:
                     self.typed_text("You should check out the rest of this area before you leave.")
                     time.sleep(1)
                     
+        self.endless_hallway()
+                    
+        
+            
+                        
         # Reset getch to blocking mode
         self.stdscr.nodelay(False)
         
-    ### NEW FUNCTION ### STOPPED HERE
-    def living_room(self, living_room_menu):
-        # Player leaves the starting halway, makes a right and enters living room
-        door_checked = False
-        # No delay on getch
-        self.stdscr.nodelay(True)
-        # Display narration sequence
-        for narration in ["You exit the hallway and you're met with a shorter hallway that opens into the living space", "A bedroom door to your right", "Ahead of you is the front door and living room"]:
-            self.stdscr.clear()
-            self.typed_text(narration)
-            time.sleep(1)
-        # Display thought sequence
-        thought_chunk_one = "You can hear the humming of the laundry machine coming from the other room."
-        thought_chunk_two = "Wait a moment."
-        thought_chunk_three = "It sounds like there's water running."
-        thought_chunk_four = "You wonder where it's coming from, it sounds serious."
-        for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four]:
-            self.stdscr.clear()
-            self.typed_text(observed_thought)
-            time.sleep(1.4)
-            
-        # After the dialog finishes, show the new menu
-        living_room_menu.print_menu()
+    
             
             
   
@@ -336,7 +347,6 @@ class Game:
         self.exit_menu = Menu(stdscr, list(ExitChoices), "Are you sure you want to exit?")
         self.bedroom_menu = Menu(stdscr, list(BedroomChoices), "Find your glasses.")
         self.hallway_menu = Menu(stdscr, list(HallwayChoices), "What's behind the door?")
-        self.living_room_menu = Menu(stdscr, list(LivingRoomChoices), "Look for the source of the water.")
         self.scenes = GameScenes(stdscr)
 
     def game_loop(self):
