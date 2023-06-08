@@ -232,6 +232,26 @@ class GameScenes:
                     time.sleep(1)
                     
         self.stdscr.nodelay(False)  # Return getch to blocking mode
+    
+    def mystery_room(self):
+        # Player is introduced to new character
+        self.stdscr.clear()
+        self.typed_text("Can I help you?")
+        time.sleep(.8)
+        thought_chunk_one = "'Who said that?' you think to yourself."
+        thought_chunk_two = "Surely that didn't come from the radio."
+        thought_chunk_three = "Actually."
+        thought_chunk_four = "Where is the radio?"
+        thought_chunk_five = "Uh..."
+        thought_chunk_six = "This isn't the room you were just in."
+        thought_chunk_seven = "'How did I get here?' you think to yourself."
+        thought_chunk_eight = "You find yourself in seemingly and endless dark void."
+        thought_chunk_nine = "No walls. No ceiling. No floor."
+        thought_chunk_ten = "Just you and the voice you heard."
+        for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five, thought_chunk_six, thought_chunk_seven, thought_chunk_eight, thought_chunk_nine, thought_chunk_ten]:
+            self.stdscr.clear()
+            self.typed_text(observed_thought)
+            time.sleep(1.4)
         
     def endless_hallway(self):
             # Player realizes they're in an endless hallway
@@ -247,24 +267,30 @@ class GameScenes:
                 self.stdscr.clear()
                 self.typed_text(observed_thought)
                 time.sleep(1.4)
+            # Player is forced to go forward into the door  
+            thought_chunk_one = "You feel yourself begin to panic."
+            thought_chunk_two = "You take a deep breath."
+            thought_chunk_three = "You understand that you cannot escape this hallway."
+            thought_chunk_four = "There's only one way you can go."
+            thought_chunk_five = "Forward."  
+            for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five]:
+                self.stdscr.clear()
+                self.typed_text(observed_thought)
+                time.sleep(1.8)
+            thought_chunk_one = "You slowly approach the door."
+            thought_chunk_two = "You can still hear music playing on the other side."
+            thought_chunk_three = "Gently, you place your hand on the doorknob."
+            thought_chunk_four = "The music stops abrubtly."
+            thought_chunk_five = "Your heart rate increases."
+            thought_chunk_six = "You don't know why, but your heart is thumping in your chest."
+            thought_chunk_seven = "You begin to sweat."
+            thought_chunk_eight = "'Just open the door,' you think to yourself."
+            for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five]:
+                self.stdscr.clear()
+                self.typed_text(observed_thought)
+                time.sleep(1.4)
             
-            time.sleep(2)
-            self.stdscr.clear()
-            self.typed_text("You feel yourself begin to panic.")
-            time.sleep(1)
-            self.stdscr.clear()
-            self.typed_text("You take a deep breath.")
-            time.sleep(2)
-            self.stdscr.clear()
-            self.typed_text("You understand that you cannot escape this hallway.")
-            time.sleep(1)
-            self.stdscr.clear()
-            self.typed_text("There's only one way you can go.")
-            time.sleep(1)
-            self.stdscr.clear()
-            self.typed_text("Forward.")
-            time.sleep(1)
-            self.stdscr.clear() 
+            self.mystery_room()
         
     def hallway(self, hallway_menu):
         door_checked = False
