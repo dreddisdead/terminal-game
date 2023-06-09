@@ -105,7 +105,7 @@ class GameScenes:
         return lines
 
   
-    def typed_text(self, text, speed=0.02):
+    def typed_text(self, text, attr=None, speed=0.02):
         h, w = self.stdscr.getmaxyx()
         margin = 20  # Set your desired margin here
         w = w - 2 * margin  # Adjust width for the margins
@@ -117,7 +117,11 @@ class GameScenes:
             x = w // 2 - len(line) // 2 + margin  # Adjust x for the left margin
             if x < w and y < h:  # Ensure x and y are within the window's boundaries
                 for char in line:
-                    self.stdscr.addstr(y, x, char)
+                    if attr is not None:
+                        self.stdscr.attron(attr)
+                    self.stdscr.addch(y, x, char)
+                    if attr is not None:
+                        self.stdscr.attroff(attr)
                     self.stdscr.refresh()
                     time.sleep(speed)
                     x += 1
@@ -236,8 +240,10 @@ class GameScenes:
     def mystery_room(self):
         # Player is introduced to new character
         self.stdscr.clear()
-        self.typed_text("Can I help you?")
+        # New character has their own color
+        self.typed_text("Can I help you?", curses.color_pair(2))
         time.sleep(.8)
+        
         thought_chunk_one = "'Who said that?' you think to yourself."
         thought_chunk_two = "Surely that didn't come from the radio."
         thought_chunk_three = "Actually."
@@ -407,6 +413,7 @@ class Game:
                 
         self.main_menu.print_menu()
 def main(stdscr):
+    curses.init_pair(2, curses.COLOR_CYAN, curses.COLOR_BLACK)
     game = Game(stdscr)
     game.game_loop()
 
