@@ -145,7 +145,7 @@ class GameScenes:
         self.stdscr.nodelay(True)  # Make getch non-blocking
 
         # Display the intro sequence
-        for title in ["Welcome to the game!", "This is the intro!", "What is your name?"]:
+        for title in ["Welcome!", "So glad you could make it.", "What is your name?"]:
             self.stdscr.clear()
             self.center_text(title)
             self.stdscr.refresh()
@@ -185,14 +185,14 @@ class GameScenes:
         # No delay on getch
         self.stdscr.nodelay(True)
         # Display narration sequence
-        for narration in ["...you're sleeping soundly...", "...dreaming peacefully...", "...the land of dreams...", "...where polarities dissolve into one...", "...one true form...", "...emptiness..."]:
+        for narration in ["...you're sleeping soundly...", "...the land of dreams...", "...where polarities dissolve into one...", "...one true form...", "...emptiness..."]:
             self.stdscr.clear()
             self.typed_text(narration)
             time.sleep(1)
         # Display thought sequence
-        thought_chunk_one = "Rudely awakened by sunlight's laser-show on your eyelids, you squint like you're deciphering a squirrel's handwriting."
+        thought_chunk_one = "Rudely awakened by sunlight's laser-show on your eyelids, you squint for dear life."
         thought_chunk_two = "Thankfully, your vision was not permanently damaged!"
-        thought_chunk_three = "Roused in your oh-so-spacious bedroom, perched on your bed like a precarious gargoyle. Better find those glasses unless you've always fancied life as a crash test dummy in a furniture warehouse."
+        thought_chunk_three = "You sit at the edge of the bed as your eyes recover, hopelessly observing the blurred image you call a room. Better find your glasses unless you've always fancied life in a hopsital."
         thought_chunk_four = "Seriously, you can't see anything without them."
         for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four]:
             self.stdscr.clear()
@@ -203,18 +203,28 @@ class GameScenes:
         bedroom_menu.print_menu()
         while True:
             chosen_bedroom_option = bedroom_menu.navigate()
-            if chosen_bedroom_option == BedroomChoices.PILLOW:
-                self.stdscr.clear()
-                self.typed_text("You look under the pillow...")
-                time.sleep(1)
+            if chosen_bedroom_option == BedroomChoices.PILLOW:                
+                thought_chunk_one = "You look under the pillow..."               
+                thought_chunk_two = "You found nothing."               
+                thought_chunk_three = "Oh wait,"               
+                thought_chunk_four = "Nope. Still nothing."
+                for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four]:
+                    self.stdscr.clear()
+                    self.typed_text(observed_thought)
+                    time.sleep(1.4)      
             elif chosen_bedroom_option == BedroomChoices.DRESSER:
                 self.stdscr.clear()
                 self.typed_text("You look in the dresser... It's empty.")
                 time.sleep(1)
             elif chosen_bedroom_option == BedroomChoices.WINDOW:
-                self.stdscr.clear()
-                self.typed_text("You look out the window...")
-                time.sleep(1)
+                thought_chunk_one = "You look out the window..."
+                thought_chunk_two = "What most people would see as a beautiful day, you see"           
+                thought_chunk_three = "Well, nothing."            
+                thought_chunk_four = "You're blind without your glasses, remember?"
+                for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four]:
+                    self.stdscr.clear()
+                    self.typed_text(observed_thought)
+                    time.sleep(1.4)  
             elif chosen_bedroom_option == BedroomChoices.BATHROOM:
                 self.stdscr.clear()
                 if not glasses_found:
@@ -222,7 +232,7 @@ class GameScenes:
                     glasses_found = True
                     time.sleep(1)
                 else:
-                    self.typed_text("You go to the bathroom... There's nothing else here.")
+                    self.typed_text("There's nothing else here.")
                     time.sleep(1)
             elif chosen_bedroom_option == BedroomChoices.LEAVE:
                 if glasses_found:
@@ -258,6 +268,10 @@ class GameScenes:
             self.stdscr.clear()
             self.typed_text(observed_thought)
             time.sleep(1.4)
+            
+        self.typed_text("Well clearly you're occupied with a panic attack right now.", curses.color_pair(2))
+        time.sleep(.8)
+        
         
     def endless_hallway(self):
             # Player realizes they're in an endless hallway
@@ -360,17 +374,11 @@ class GameScenes:
                     time.sleep(1)
                     
         self.endless_hallway()
-                    
-        
-            
                         
         # Reset getch to blocking mode
         self.stdscr.nodelay(False)
         
     
-            
-            
-  
 class Game:
     def __init__(self, stdscr):
         self.stdscr = stdscr
