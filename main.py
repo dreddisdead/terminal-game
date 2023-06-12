@@ -35,10 +35,13 @@ class HallwayChoices(Enum):
     DOOR = "Check out the Door"
     CONTINUE = "Continue Down Hallway"
     
+class QuestionChoices(Enum):
+    WHO = "Who are you?"
+    WHAT = "What is this place?"
+    WHY = "Why am I here?"
+    LEAVE = "How do I leave?"
     
     
-
-
 class Menu:
     def __init__(self, stdscr, options, title):
         self.title = title
@@ -107,7 +110,7 @@ class GameScenes:
   
     def typed_text(self, text, attr=None, speed=0.02):
         h, w = self.stdscr.getmaxyx()
-        margin = 20  # Set your desired margin here
+        margin = 25  # Set your desired margin here
         w = w - 2 * margin  # Adjust width for the margins
         y = h // 2 - len(self.wrap_text(text, w)) // 2  # Adjust y to take into account the number of lines
 
@@ -247,7 +250,9 @@ class GameScenes:
                     
         self.stdscr.nodelay(False)  # Return getch to blocking mode
     
-    def mystery_room(self):
+    def mystery_room(self, question_menu):
+        # No delay on getch
+        self.stdscr.nodelay(True)
         # Player is introduced to new character
         self.stdscr.clear()
         # New character has their own color
@@ -269,8 +274,84 @@ class GameScenes:
             self.typed_text(observed_thought)
             time.sleep(1.4)
             
-        self.typed_text("Well clearly you're occupied with a panic attack right now.", curses.color_pair(2))
-        time.sleep(.8)
+        self.stdscr.clear()    
+        blue_message_one = "Well clearly you're occupied with a panic attack right now."
+        blue_message_two = "Listen..."
+        blue_message_three = "I understand you're confused."
+        blue_message_four = "I'm confused too."
+        blue_message_five = "You shouldn't be here."
+        blue_message_six = "This place isn't for the living."
+        blue_message_seven = "Well..."
+        blue_message_eight = "I suppose the only thing I can do is answer your questions."
+        blue_message_nine = "Seems like you have a lot of them."
+        blue_message_ten = "It's written all over your face."
+        for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four, blue_message_five, blue_message_six, blue_message_seven, blue_message_eight, blue_message_nine, blue_message_ten]:
+            self.stdscr.clear()
+            self.typed_text(message, curses.color_pair(2))
+            time.sleep(.8)
+        
+        question_menu.print_menu()
+        
+        while True:
+            chosen_question_option = question_menu.navigate()
+            
+            if chosen_question_option == QuestionChoices.WHO:
+                self.stdscr.clear()
+                blue_message_one = "That's a little complicated."
+                blue_message_two = "I'm not sure how to answer that."
+                blue_message_three = "You're not going to like the answer."
+                for message in [blue_message_one, blue_message_two, blue_message_three]:
+                    self.stdscr.clear()
+                    self.typed_text(message, curses.color_pair(2))
+                    time.sleep(.8)
+        
+            elif chosen_question_option == QuestionChoices.WHAT:
+                self.stdscr.clear()
+                blue_message_one = "A place where you can make your dreams come true in an INSTANT."
+                blue_message_two = "A wonderful place indeed."
+                blue_message_three = "There's one thing I know for certain."
+                blue_message_four = "Things in this world don't make sense."
+                blue_message_five = "It's what you make of it."
+                blue_message_six = "Like a good dream."
+                for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four, blue_message_five, blue_message_six]:
+                    self.stdscr.clear()
+                    self.typed_text(message, curses.color_pair(2))
+                    time.sleep(.8)
+            elif chosen_question_option == QuestionChoices.WHY:
+                self.stdscr.clear()
+                blue_message_one = "Why are you so worried about how you got here?"
+                blue_message_two = "You're here now."
+                blue_message_three = "You can't change that."
+                for message in [blue_message_one, blue_message_two, blue_message_three]:
+                    self.stdscr.clear()
+                    self.typed_text(message, curses.color_pair(2))
+                    time.sleep(.8)
+                
+            elif chosen_question_option == QuestionChoices.LEAVE:
+                self.stdscr.clear()
+                self.typed_text("You can't leave.", curses.color_pair(3))
+                time.sleep(.03)
+                self.stdscr.clear()
+                blue_message_one = "I mean... you can't leave just yet!"
+                blue_message_two = "There's so much here for you to explore."
+                blue_message_three = "With me!"
+                blue_message_four = "..."
+                blue_message_five = "What's that?"
+                blue_message_six = "You want to wake up?"
+                blue_message_seven = "No."
+                blue_message_eight = "You don't want to wake up."
+                blue_message_nine = "You want to stay here with me."
+                for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four, blue_message_five, blue_message_six, blue_message_seven, blue_message_eight, blue_message_nine]:
+                    self.stdscr.clear()
+                    self.typed_text(message, curses.color_pair(2))
+                    time.sleep(1.5)
+                self.stdscr.clear()
+                self.typed_text("Forever.", curses.color_pair(3))
+                time.sleep(3)
+                break  # Exits the question menu and continue with the game
+                
+        # Reset getch to blocking mode
+        self.stdscr.nodelay(False) 
         
         
     def endless_hallway(self):
@@ -310,7 +391,7 @@ class GameScenes:
                 self.typed_text(observed_thought)
                 time.sleep(1.4)
             
-            self.mystery_room()
+            
         
     def hallway(self, hallway_menu):
         door_checked = False
@@ -387,6 +468,7 @@ class Game:
         self.exit_menu = Menu(stdscr, list(ExitChoices), "Are you sure you want to exit?")
         self.bedroom_menu = Menu(stdscr, list(BedroomChoices), "Find your glasses.")
         self.hallway_menu = Menu(stdscr, list(HallwayChoices), "What's behind the door?")
+        self.question_menu = Menu(stdscr, list(QuestionChoices), "Ask a question.")
         self.scenes = GameScenes(stdscr)
 
     def game_loop(self):
@@ -411,6 +493,7 @@ class Game:
             # insert the actual game logic here
             self.scenes.bedroom(self.bedroom_menu)
             self.scenes.hallway(self.hallway_menu)
+            self.scenes.mystery_room(self.question_menu)
             
             key = self.stdscr.getch()
             if key == ord('p') or key == ord('P'):
@@ -422,6 +505,7 @@ class Game:
         self.main_menu.print_menu()
 def main(stdscr):
     curses.init_pair(2, curses.COLOR_CYAN, curses.COLOR_BLACK)
+    curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK)
     game = Game(stdscr)
     game.game_loop()
 
