@@ -41,6 +41,18 @@ class QuestionChoices(Enum):
     WHY = "Why am I here?"
     LEAVE = "How do I leave?"
     
+class FearChoices(Enum):
+    SPIDERS = "Spiders"
+    HEIGHTS = "Heights"
+    FAILURE = "Failure"
+    DARKNESS = "Darkness"
+    
+class RegretChoices(Enum):
+    DREAMS = "Not pursuing my dreams"
+    HURTING = "Hurting someone I love"
+    WASTING = "Wasting my life"
+    RISKS = "Not taking risks"
+    
     
 class Menu:
     def __init__(self, stdscr, options, title):
@@ -143,7 +155,97 @@ class GameScenes:
             if x < w and y < h:  # Ensure x and y are within the window's boundaries
                 self.stdscr.addstr(y, x, line)
                 y += 1
+    ###NEW CODE
+    def question_screen(self, title, choices):
+        question_menu = Menu(self.stdscr, choices, title)
+        question_menu.center_text(title)
+        question_menu.print_menu()
 
+        chosen_option = question_menu.navigate()
+        return chosen_option
+    
+    ###BOSS FIGHT
+    def refusal(self):
+        self.stdscr.nodelay(True)  # Make getch non-blocking
+        
+        self.stdscr.clear()
+        self.stdscr.refresh()
+
+        # Display the boss fight scene
+        self.typed_text("A mysterious figure stands before you.")
+        time.sleep(1)        
+        
+        blue_message_one = "You can't leave this place. I won't allow it."
+        blue_message_two = "This place is your mind, a prison of your own making."
+        blue_message_three = "I am the embodiment of your fears, doubts, and regrets."
+        blue_message_four = "If you truly want to leave this place, you must confront and overcome me."
+        
+        for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four]:
+            self.stdscr.clear()
+            self.typed_text(message, curses.color_pair(2))
+            time.sleep(1.5)
+            
+        # First question screen
+        title = "What is your greatest fear?"
+        choices = list(FearChoices)
+        chosen_option = self.question_screen(title, choices)
+
+        # Handle the chosen option for the first question
+        if chosen_option == choices[0]:
+            # Handle the outcome for the first choice
+            self.stdscr.clear()
+            self.typed_text("You chose Spiders.")
+            time.sleep(1.5)
+        elif chosen_option == choices[1]:
+            # Handle the outcome for the second choice
+            self.stdscr.clear()
+            self.typed_text("You chose Heights.")
+            time.sleep(1.5)
+        elif chosen_option == choices[2]:
+            # Handle the outcome for the third choice
+            self.stdscr.clear()
+            self.typed_text("You chose Failure.")
+            time.sleep(1.5)
+        elif chosen_option == choices[3]:
+            # Handle the outcome for the fourth choice
+            self.stdscr.clear()
+            self.typed_text("You chose Darkness.")
+            time.sleep(1.5)
+
+        self.stdscr.clear()
+        self.stdscr.refresh()
+
+        # Second question screen
+        title = "What is your biggest regret?"
+        choices = list(RegretChoices)
+        chosen_option = self.question_screen(title, choices)
+
+        # Handle the chosen option for the second question
+        if chosen_option == choices[0]:
+            # Handle the outcome for the first choice
+            self.stdscr.clear()
+            self.typed_text("You chose Not pursuing my dreams.")
+            time.sleep(1.5)
+        elif chosen_option == choices[1]:
+            # Handle the outcome for the second choice
+            self.stdscr.clear()
+            self.typed_text("You chose Hurting someone I love.")
+            time.sleep(1.5)
+        elif chosen_option == choices[2]:
+            # Handle the outcome for the third choice
+            self.stdscr.clear()
+            self.typed_text("You chose Wasting my life.")
+            time.sleep(1.5)
+        elif chosen_option == choices[3]:
+            # Handle the outcome for the fourth choice
+            self.stdscr.clear()
+            self.typed_text("You chose Not taking risks.")
+            time.sleep(1.5)
+
+        # ... continue with more question screens ...
+
+        self.stdscr.nodelay(False)  # Make getch blocking again
+        
     def intro(self):
         self.stdscr.nodelay(True)  # Make getch non-blocking
 
@@ -353,6 +455,9 @@ class GameScenes:
         # Reset getch to blocking mode
         self.stdscr.nodelay(False) 
         
+        # Transition to refusal to leave (Boss fight)
+        self.stdscr.clear()
+        self.refusal()
         
     def endless_hallway(self):
             # Player realizes they're in an endless hallway
@@ -491,8 +596,8 @@ class Game:
     def play_game(self):
         while True:
             # insert the actual game logic here
-            self.scenes.bedroom(self.bedroom_menu)
-            self.scenes.hallway(self.hallway_menu)
+            #self.scenes.bedroom(self.bedroom_menu)
+            #self.scenes.hallway(self.hallway_menu)
             self.scenes.mystery_room(self.question_menu)
             
             key = self.stdscr.getch()
