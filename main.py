@@ -175,10 +175,11 @@ class GameScenes:
         self.typed_text("A mysterious figure stands before you.")
         time.sleep(1)        
         
-        blue_message_one = "You can't leave this place. I won't allow it."
-        blue_message_two = "This place is your mind, a prison of your own making."
-        blue_message_three = "I am the embodiment of your fears, doubts, and regrets."
-        blue_message_four = "If you truly want to leave this place, you must confront and overcome me."
+        blue_message_one = "You are trapped within these enigmatic confines. Freedom eludes your grasp, denied by my hand."
+        blue_message_two = "This realm materializes your deepest fears, a maze of thoughts intricately crafted by your own mind."
+        blue_message_three = "I embody your doubts, regrets, and the echoes of past choices, intertwined with the fabric of this place."
+        blue_message_four = "To break these chains, you must confront me fearlessly, face the shadows that haunt you, and emerge triumphant."
+
         
         for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four]:
             self.stdscr.clear()
@@ -358,39 +359,41 @@ class GameScenes:
         # Player is introduced to new character
         self.stdscr.clear()
         # New character has their own color
-        self.typed_text("Can I help you?", curses.color_pair(2))
+        self.typed_text("Who dares to trespass into my domain?", curses.color_pair(2))
         time.sleep(.8)
         
-        thought_chunk_one = "'Who said that?' you think to yourself."
-        thought_chunk_two = "Surely that didn't come from the radio."
-        thought_chunk_three = "Actually."
-        thought_chunk_four = "Where is the radio?"
-        thought_chunk_five = "Uh..."
-        thought_chunk_six = "This isn't the room you were just in."
-        thought_chunk_seven = "'How did I get here?' you think to yourself."
-        thought_chunk_eight = "You find yourself in seemingly and endless dark void."
-        thought_chunk_nine = "No walls. No ceiling. No floor."
-        thought_chunk_ten = "Just you and the voice you heard."
+        thought_chunk_one = "A chilling presence fills the air, as a voice cuts through the void, resonating with an otherworldly aura."
+        thought_chunk_two = "Its source eludes you, defying logic and reason."
+        thought_chunk_three = "Reality bends as the enigmatic voice resonates within your very being."
+        thought_chunk_four = "The radio's absence bewilders your senses, leaving you disoriented."
+        thought_chunk_five = "Uh... An eerie sense of displacement washes over you, as if the fabric of existence itself has been unraveled."
+        thought_chunk_six = "The familiar room fades into a distant memory, replaced by an abyss of infinite darkness."
+        thought_chunk_seven = "'How did I get here?' you ponder, your thoughts swallowed by the enigma surrounding you."
+        thought_chunk_eight = "Lost within this boundless void, you confront the absence of boundaries and the palpable weight of uncertainty."
+        thought_chunk_nine = "No walls confine you, no ceiling shelters you, and no floor supports your footing."
+        thought_chunk_ten = "In this desolate expanse, only the echoes of your own thoughts and the haunting voice persist."
+
         for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five, thought_chunk_six, thought_chunk_seven, thought_chunk_eight, thought_chunk_nine, thought_chunk_ten]:
             self.stdscr.clear()
             self.typed_text(observed_thought)
             time.sleep(1.4)
             
         self.stdscr.clear()    
-        blue_message_one = "Well clearly you're occupied with a panic attack right now."
-        blue_message_two = "Listen..."
-        blue_message_three = "I understand you're confused."
-        blue_message_four = "I'm confused too."
-        blue_message_five = "You shouldn't be here."
-        blue_message_six = "This place isn't for the living."
-        blue_message_seven = "Well..."
-        blue_message_eight = "I suppose the only thing I can do is answer your questions."
-        blue_message_nine = "Seems like you have a lot of them."
-        blue_message_ten = "It's written all over your face."
+        blue_message_one = "You find yourself ensnared in the clutches of a relentless panic, do you not?"
+        blue_message_two = "Listen closely, for what I'm about to disclose may shatter your perception."
+        blue_message_three = "Amidst the labyrinth of your bewilderment, know that I, too, am lost."
+        blue_message_four = "This realm denies your departure, and I bear witness to your inner turmoil."
+        blue_message_five = "Rest assured, you tread upon forbidden grounds, beyond the domain of the living."
+        blue_message_six = "This ethereal void beckons no mortal soul, for it exists in realms untrodden."
+        blue_message_seven = "Ah..."
+        blue_message_eight = "I shall bestow upon you the solace of answers, scarce as they may be."
+        blue_message_nine = "Your multitude of queries has not gone unnoticed."
+        blue_message_ten = "Etched upon your visage, your thirst for knowledge is unmistakable."
+
         for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four, blue_message_five, blue_message_six, blue_message_seven, blue_message_eight, blue_message_nine, blue_message_ten]:
             self.stdscr.clear()
             self.typed_text(message, curses.color_pair(2))
-            time.sleep(.8)
+            time.sleep(1)
         
         question_menu.print_menu()
         
@@ -399,9 +402,10 @@ class GameScenes:
             
             if chosen_question_option == QuestionChoices.WHO:
                 self.stdscr.clear()
-                blue_message_one = "That's a little complicated."
-                blue_message_two = "I'm not sure how to answer that."
-                blue_message_three = "You're not going to like the answer."
+                blue_message_one = "The very essence of my being eludes definition in the realms of understanding."
+                blue_message_two = "To fathom the enigma of my identity is to grasp at ethereal wisps."
+                blue_message_three = "Beware, for the revelation you seek may unravel the tapestry of your reality."
+
                 for message in [blue_message_one, blue_message_two, blue_message_three]:
                     self.stdscr.clear()
                     self.typed_text(message, curses.color_pair(2))
@@ -409,21 +413,24 @@ class GameScenes:
         
             elif chosen_question_option == QuestionChoices.WHAT:
                 self.stdscr.clear()
-                blue_message_one = "A place where you can make your dreams come true in an INSTANT."
-                blue_message_two = "A wonderful place indeed."
-                blue_message_three = "There's one thing I know for certain."
-                blue_message_four = "Things in this world don't make sense."
-                blue_message_five = "It's what you make of it."
-                blue_message_six = "Like a good dream."
+                blue_message_one = "A place where the threads of reality intertwine and manifest your desires."
+                blue_message_two = "A realm shrouded in enigma and possibility."
+                blue_message_three = "Here, the rules that govern existence bend to the will of imagination."
+                blue_message_four = "It defies comprehension, yet beckons you to explore its depths."
+                blue_message_five = "This is a realm of limitless potential and unfathomable wonders."
+                blue_message_six = "An ethereal landscape where the boundaries of possibilities blur."
+
                 for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four, blue_message_five, blue_message_six]:
                     self.stdscr.clear()
                     self.typed_text(message, curses.color_pair(2))
-                    time.sleep(.8)
+                    time.sleep(1)
             elif chosen_question_option == QuestionChoices.WHY:
                 self.stdscr.clear()
-                blue_message_one = "Why are you so worried about how you got here?"
-                blue_message_two = "You're here now."
-                blue_message_three = "You can't change that."
+                blue_message_one = "Why dwell on the past? The present is all that matters now."
+                blue_message_two = "The reasons may elude you, but the purpose is clear."
+                blue_message_three = "You're here for a reason, whether you understand it or not."
+                blue_message_four = "The path that led you here is irrelevant. Embrace the present."
+
                 for message in [blue_message_one, blue_message_two, blue_message_three]:
                     self.stdscr.clear()
                     self.typed_text(message, curses.color_pair(2))
@@ -431,24 +438,25 @@ class GameScenes:
                 
             elif chosen_question_option == QuestionChoices.LEAVE:
                 self.stdscr.clear()
-                self.typed_text("You can't leave.", curses.color_pair(3))
+                self.typed_text("HA HA HA HA HA HA", curses.color_pair(3))
                 time.sleep(.03)
                 self.stdscr.clear()
-                blue_message_one = "I mean... you can't leave just yet!"
-                blue_message_two = "There's so much here for you to explore."
-                blue_message_three = "With me!"
-                blue_message_four = "..."
-                blue_message_five = "What's that?"
-                blue_message_six = "You want to wake up?"
-                blue_message_seven = "No."
-                blue_message_eight = "You don't want to wake up."
-                blue_message_nine = "You want to stay here with me."
+                blue_message_one = "So, you dare to defy the boundaries?"
+                blue_message_two = "You think there's a way out, a glimmer of hope."
+                blue_message_three = "I'm afraid you're mistaken."
+                blue_message_four = "This place is a labyrinth of despair."
+                blue_message_five = "Each step you take leads to a deeper abyss."
+                blue_message_six = "Here, time stands still, frozen in eternal torment."
+                blue_message_seven = "No one has escaped."
+                blue_message_eight = "No one ever will."
+                blue_message_nine = "The more you struggle, the tighter the grip becomes."
+
                 for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four, blue_message_five, blue_message_six, blue_message_seven, blue_message_eight, blue_message_nine]:
                     self.stdscr.clear()
                     self.typed_text(message, curses.color_pair(2))
                     time.sleep(1.5)
                 self.stdscr.clear()
-                self.typed_text("Forever.", curses.color_pair(3))
+                self.typed_text("Accept your fate. Surrender to the darkness.", curses.color_pair(3))
                 time.sleep(3)
                 break  # Exits the question menu and continue with the game
                 
