@@ -166,7 +166,12 @@ class GameScenes:
     
     ###BOSS FIGHT
     def refusal(self):
+        MAX_WILLPOWER = 20
+        willpower = 10
+        
         self.stdscr.nodelay(True)  # Make getch non-blocking
+        
+        
         
         self.stdscr.clear()
         self.stdscr.refresh()
@@ -195,22 +200,26 @@ class GameScenes:
         if chosen_option == choices[0]:
             # Handle the outcome for the first choice
             self.stdscr.clear()
-            self.typed_text("You chose Spiders.")
+            self.typed_text("You're an insignificant, mere speck in the vastness of the universe.", curses.color_pair(2))
+            willpower -= 5
             time.sleep(1.5)
         elif chosen_option == choices[1]:
             # Handle the outcome for the second choice
             self.stdscr.clear()
-            self.typed_text("You chose Heights.")
+            self.typed_text("Your heart is racing at the speed of light. How amusing.", curses.color_pair(2))
+            willpower += 5
             time.sleep(1.5)
         elif chosen_option == choices[2]:
             # Handle the outcome for the third choice
             self.stdscr.clear()
-            self.typed_text("You chose Failure.")
+            self.typed_text("Take a deep breath, it's not like I'm going to kill you.", curses.color_pair(2))
+            willpower += 8
             time.sleep(1.5)
         elif chosen_option == choices[3]:
             # Handle the outcome for the fourth choice
             self.stdscr.clear()
-            self.typed_text("You chose Darkness.")
+            self.typed_text("Oh...looks like you've fallen in a pit of dispair.", curses.color_pair(2))
+            willpower -= 8
             time.sleep(1.5)
 
         self.stdscr.clear()
@@ -225,28 +234,44 @@ class GameScenes:
         if chosen_option == choices[0]:
             # Handle the outcome for the first choice
             self.stdscr.clear()
-            self.typed_text("You chose Not pursuing my dreams.")
+            self.typed_text("Do you sersiously think you can be anything more than what you are now?", curses.color_pair(2))
+            willpower -= 5
             time.sleep(1.5)
         elif chosen_option == choices[1]:
             # Handle the outcome for the second choice
             self.stdscr.clear()
-            self.typed_text("You chose Hurting someone I love.")
+            self.typed_text("Can you even remember the last time you felt happy?", curses.color_pair(2))
+            willpower += 5
             time.sleep(1.5)
         elif chosen_option == choices[2]:
             # Handle the outcome for the third choice
             self.stdscr.clear()
-            self.typed_text("You chose Wasting my life.")
+            self.typed_text("You're wasting your time. Give up.", curses.color_pair(2))
+            willpower -= 8
             time.sleep(1.5)
         elif chosen_option == choices[3]:
             # Handle the outcome for the fourth choice
             self.stdscr.clear()
-            self.typed_text("You chose Not taking risks.")
+            self.typed_text("You can't expect others to stick around if you don't even try to be a better person.", curses.color_pair(2))
+            willpower += 8
             time.sleep(1.5)
 
         # ... continue with more question screens ...
 
-        self.stdscr.nodelay(False)  # Make getch blocking again
         
+        
+        # Checks status of willpower
+        if willpower < MAX_WILLPOWER / 2:
+            self.stdscr.clear()
+            self.typed_text("You have failed to overcome your fears and regrets. You are trapped here forever.", curses.color_pair(2))
+            time.sleep(1.5)
+        elif willpower == MAX_WILLPOWER:
+            self.stdscr.clear()
+            self.typed_text("You have overcome your fears and regrets. You are free to leave.", curses.color_pair(2))
+            time.sleep(1.5)
+           
+        self.stdscr.nodelay(False)  # Make getch blocking again 
+            
     def intro(self):
         self.stdscr.nodelay(True)  # Make getch non-blocking
 
@@ -606,8 +631,8 @@ class Game:
             # insert the actual game logic here
             #self.scenes.bedroom(self.bedroom_menu)
             #self.scenes.hallway(self.hallway_menu)
-            self.scenes.mystery_room(self.question_menu)
-            
+            #self.scenes.mystery_room(self.question_menu)
+            self.scenes.refusal()
             key = self.stdscr.getch()
             if key == ord('p') or key == ord('P'):
                 self.pause_menu.print_menu()
