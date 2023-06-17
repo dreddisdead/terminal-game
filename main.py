@@ -97,7 +97,9 @@ class Menu:
 class GameScenes:
     def __init__(self, stdscr):
         self.stdscr = stdscr
-        
+        self.MAX_WILLPOWER = 20
+        self.willpower = self.MAX_WILLPOWER
+                
     def wrap_text(self, text, width):
         words = text.split(' ')
         lines = []
@@ -155,7 +157,7 @@ class GameScenes:
             if x < w and y < h:  # Ensure x and y are within the window's boundaries
                 self.stdscr.addstr(y, x, line)
                 y += 1
-    ###NEW CODE
+    
     def question_screen(self, title, choices):
         question_menu = Menu(self.stdscr, choices, title)
         question_menu.center_text(title)
@@ -163,11 +165,12 @@ class GameScenes:
 
         chosen_option = question_menu.navigate()
         return chosen_option
-    
+
+        
     ###BOSS FIGHT
-    def refusal(self):
-        MAX_WILLPOWER = 20
-        willpower = 10
+    def refusal(self, willpower):
+        self.willpower = willpower
+        
         
         self.stdscr.nodelay(True)  # Make getch non-blocking
         
@@ -191,6 +194,8 @@ class GameScenes:
             self.typed_text(message, curses.color_pair(2))
             time.sleep(1.5)
             
+
+           
         # First question screen
         title = "What is your greatest fear?"
         choices = list(FearChoices)
@@ -201,30 +206,30 @@ class GameScenes:
             # Handle the outcome for the first choice
             self.stdscr.clear()
             self.typed_text("You're an insignificant, mere speck in the vastness of the universe.", curses.color_pair(2))
-            willpower -= 5
+            self.willpower -= 5
             time.sleep(1.5)
         elif chosen_option == choices[1]:
             # Handle the outcome for the second choice
             self.stdscr.clear()
             self.typed_text("Your heart is racing at the speed of light. How amusing.", curses.color_pair(2))
-            willpower += 5
+            self.willpower += 5
             time.sleep(1.5)
         elif chosen_option == choices[2]:
             # Handle the outcome for the third choice
             self.stdscr.clear()
             self.typed_text("Take a deep breath, it's not like I'm going to kill you.", curses.color_pair(2))
-            willpower += 8
+            self.willpower += 8
             time.sleep(1.5)
         elif chosen_option == choices[3]:
             # Handle the outcome for the fourth choice
             self.stdscr.clear()
             self.typed_text("Oh...looks like you've fallen in a pit of dispair.", curses.color_pair(2))
-            willpower -= 8
+            self.willpower -= 8
             time.sleep(1.5)
 
         self.stdscr.clear()
         self.stdscr.refresh()
-
+        
         # Second question screen
         title = "What is your biggest regret?"
         choices = list(RegretChoices)
@@ -235,42 +240,47 @@ class GameScenes:
             # Handle the outcome for the first choice
             self.stdscr.clear()
             self.typed_text("Do you sersiously think you can be anything more than what you are now?", curses.color_pair(2))
-            willpower -= 5
+            self.willpower -= 5
             time.sleep(1.5)
         elif chosen_option == choices[1]:
             # Handle the outcome for the second choice
             self.stdscr.clear()
             self.typed_text("Can you even remember the last time you felt happy?", curses.color_pair(2))
-            willpower += 5
+            self.willpower += 5
             time.sleep(1.5)
         elif chosen_option == choices[2]:
             # Handle the outcome for the third choice
             self.stdscr.clear()
             self.typed_text("You're wasting your time. Give up.", curses.color_pair(2))
-            willpower -= 8
+            self.willpower -= 8
             time.sleep(1.5)
         elif chosen_option == choices[3]:
             # Handle the outcome for the fourth choice
             self.stdscr.clear()
             self.typed_text("You can't expect others to stick around if you don't even try to be a better person.", curses.color_pair(2))
-            willpower += 8
+            self.willpower += 8
             time.sleep(1.5)
+            
+    
 
         # ... continue with more question screens ...
 
-        
-        
         # Checks status of willpower
-        if willpower < MAX_WILLPOWER / 2:
+        if self.willpower < self.MAX_WILLPOWER / 2:
             self.stdscr.clear()
             self.typed_text("You have failed to overcome your fears and regrets. You are trapped here forever.", curses.color_pair(2))
             time.sleep(1.5)
-        elif willpower == MAX_WILLPOWER:
+            # game over sequence
+        
+        elif self.willpower > self.MAX_WILLPOWER:
             self.stdscr.clear()
             self.typed_text("You have overcome your fears and regrets. You are free to leave.", curses.color_pair(2))
             time.sleep(1.5)
-           
-        self.stdscr.nodelay(False)  # Make getch blocking again 
+            # end game sequence
+            
+        self.stdscr.nodelay(False)  # Make getch blocking again
+        
+        
             
     def intro(self):
         self.stdscr.nodelay(True)  # Make getch non-blocking
@@ -490,7 +500,7 @@ class GameScenes:
         
         # Transition to refusal to leave (Boss fight)
         self.stdscr.clear()
-        self.refusal()
+        self.refusal(10)
         
     def endless_hallway(self):
             # Player realizes they're in an endless hallway
@@ -632,7 +642,7 @@ class Game:
             #self.scenes.bedroom(self.bedroom_menu)
             #self.scenes.hallway(self.hallway_menu)
             #self.scenes.mystery_room(self.question_menu)
-            self.scenes.refusal()
+            self.scenes.refusal(10)
             key = self.stdscr.getch()
             if key == ord('p') or key == ord('P'):
                 self.pause_menu.print_menu()
@@ -641,6 +651,7 @@ class Game:
                     break
                 
         self.main_menu.print_menu()
+        
 def main(stdscr):
     curses.init_pair(2, curses.COLOR_CYAN, curses.COLOR_BLACK)
     curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK)
