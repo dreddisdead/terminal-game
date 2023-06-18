@@ -53,6 +53,27 @@ class RegretChoices(Enum):
     WASTING = "Wasting my life"
     RISKS = "Not taking risks"
     
+class ColorChoices(Enum):
+    RED = "Red"
+    BLUE = "Blue"
+    GREEN = "Green"
+    ORANGE = "Orange"
+    
+class GiveUpChoices(Enum):
+    MEMORY = "Your memories"
+    EMOTIONS = "Your ability to feel emotions"
+    TIME = "Your sense of time"
+    IMAGINATION = "Your imagination"
+    
+class GameOverChoices(Enum):
+    TRY_AGAIN = "Try Again"
+    EXIT = "Exit Game"
+    
+class BossBattleQuitChoices(Enum):
+    YES = "Yes"
+    NO = "No"
+    
+    
     
 class Menu:
     def __init__(self, stdscr, options, title):
@@ -166,15 +187,48 @@ class GameScenes:
         chosen_option = question_menu.navigate()
         return chosen_option
 
+    def game_over(self):
+        self.stdscr.clear()
+        
+        title = "GAME OVER"
+        choices = list(GameOverChoices)
+        chosen_option = self.question_screen(title, choices)
+        
+        # Handle the chosen option for game over
+        if chosen_option == choices[0]:
+            # Handle the outcome for the first choice
+            self.stdscr.clear()
+            self.typed_text(f"I believe in you!")
+            time.sleep(1.5)
+            self.refusal(10)
+        elif chosen_option == choices[1]:
+            # Handle the outcome for the second choice
+            self.stdscr.clear()
+            self.typed_text("You realize that if you exit now, you'll restart from the beginning. Do you still wish to continue?", curses.color_pair(3))
+            time.sleep(3)
+            
+            self.stdscr.clear()
+            
+            title = "Are you sure you want to quit?"
+            choices = list(BossBattleQuitChoices)
+            chosen_option = self.question_screen(title, choices)
+            
+            # Handle the chosen option for quitting
+            if chosen_option == choices[0]:
+                # Handle the outcome for the first choice
+                self.stdscr.clear()
+                sys.exit()
+                
+            elif chosen_option == choices[1]:
+                # Handle the outcome for the second choice
+                self.stdscr.clear()
+                self.game_over()
         
     ###BOSS FIGHT
     def refusal(self, willpower):
         self.willpower = willpower
-        
-        
+    
         self.stdscr.nodelay(True)  # Make getch non-blocking
-        
-        
         
         self.stdscr.clear()
         self.stdscr.refresh()
@@ -239,7 +293,7 @@ class GameScenes:
         if chosen_option == choices[0]:
             # Handle the outcome for the first choice
             self.stdscr.clear()
-            self.typed_text("Do you sersiously think you can be anything more than what you are now?", curses.color_pair(2))
+            self.typed_text("Do you sersiously think you can be anything more than what you are now?", curses.color_pair(3))
             self.willpower -= 5
             time.sleep(1.5)
         elif chosen_option == choices[1]:
@@ -251,7 +305,7 @@ class GameScenes:
         elif chosen_option == choices[2]:
             # Handle the outcome for the third choice
             self.stdscr.clear()
-            self.typed_text("You're wasting your time. Give up.", curses.color_pair(2))
+            self.typed_text("You're wasting your time. Give up.", curses.color_pair(3))
             self.willpower -= 8
             time.sleep(1.5)
         elif chosen_option == choices[3]:
@@ -261,22 +315,93 @@ class GameScenes:
             self.willpower += 8
             time.sleep(1.5)
             
-    
+        self.stdscr.clear()
+        self.stdscr.refresh()
+        
+        # Third question screen
+        title = "Which of the following colors is the warmest?"
+        choices = list(ColorChoices)
+        chosen_option = self.question_screen(title, choices)
+        
+        # Handle the chosen option for the third question
+        if chosen_option == choices[0]:
+            # Handle the outcome for the first choice
+            self.stdscr.clear()
+            self.typed_text("You're a horrible person.", curses.color_pair(3))
+            self.willpower -= 5
+            time.sleep(1.5)
+        elif chosen_option == choices[1]:
+            # Handle the outcome for the second choice
+            self.stdscr.clear()
+            self.typed_text("You're thinking too hard about this!", curses.color_pair(2))
+            self.willpower += 5
+            time.sleep(1.5)
+        elif chosen_option == choices[2]:
+            # Handle the outcome for the third choice
+            self.stdscr.clear()
+            self.typed_text("How can you live with yourself?", curses.color_pair(2))
+            self.willpower -= 8
+            time.sleep(1.5)
+        elif chosen_option == choices[3]:
+            # Handle the outcome for the fourth choice
+            self.stdscr.clear()
+            self.typed_text("You can't be serious.", curses.color_pair(3))
+            self.willpower += 8
+            time.sleep(1.5)
+            
+        self.stdscr.clear()
+        self.stdscr.refresh()
+        
+        # Fourth question screen
+        title = "If you had to give up one, which would it be??"
+        choices = list(GiveUpChoices)
+        chosen_option = self.question_screen(title, choices)
 
+        # Handle the chosen option for the fourth question
+        if chosen_option == choices[0]:
+            # Handle the outcome for the first choice
+            self.stdscr.clear()
+            self.typed_text("How would your mother feel?", curses.color_pair(2))
+            self.willpower -= 8
+            time.sleep(1.5)
+        elif chosen_option == choices[1]:
+            # Handle the outcome for the second choice
+            self.stdscr.clear()
+            self.typed_text("You're just like the rest of them.", curses.color_pair(3))
+            self.willpower += 5
+            time.sleep(1.5)
+        elif chosen_option == choices[2]:
+            # Handle the outcome for the third choice
+            self.stdscr.clear()
+            self.typed_text("Who would you be without time?", curses.color_pair(2))
+            self.willpower -= 5
+            time.sleep(1.5)
+        elif chosen_option == choices[3]:
+            # Handle the outcome for the fourth choice
+            self.stdscr.clear()
+            self.typed_text("Can't help but feel sorry for you.", curses.color_pair(2))
+            self.willpower += 8
+            time.sleep(1.5)
+            
         # ... continue with more question screens ...
 
         # Checks status of willpower
-        if self.willpower < self.MAX_WILLPOWER / 2:
-            self.stdscr.clear()
-            self.typed_text("You have failed to overcome your fears and regrets. You are trapped here forever.", curses.color_pair(2))
-            time.sleep(1.5)
-            # game over sequence
-        
-        elif self.willpower > self.MAX_WILLPOWER:
+        if self.willpower > self.MAX_WILLPOWER:
             self.stdscr.clear()
             self.typed_text("You have overcome your fears and regrets. You are free to leave.", curses.color_pair(2))
             time.sleep(1.5)
             # end game sequence
+        
+        else:
+            self.stdscr.clear()
+            self.typed_text("You haven't changed one bit.", curses.color_pair(2))
+            time.sleep(1.5)
+            self.stdscr.clear()
+            self.typed_text("What a shame.", curses.color_pair(3))
+            time.sleep(1.5)
+            self.game_over()
+            
+            # game over sequence
             
         self.stdscr.nodelay(False)  # Make getch blocking again
         
@@ -566,13 +691,24 @@ class GameScenes:
         while True:
             chosen_hallway_option = hallway_menu.navigate()
             if chosen_hallway_option == HallwayChoices.PAINTINGS_LEFT:
-                self.stdscr.clear()
-                self.typed_text("You look at the paintings on your left...")
-                time.sleep(1)
+                thought_chunk_one = "You see a woman standing next to a tree."
+                thought_chunk_two = "She's beautiful, and you feel a sense of calm as you look at her."
+                thought_chunk_three = "It feels like she's looking right at you."
+                thought_chunk_four = "Why are you crying?"
+                for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four]:
+                    self.stdscr.clear()
+                    self.typed_text(observed_thought)
+                    time.sleep(1.4)
+                    
             elif chosen_hallway_option == HallwayChoices.PAINTINGS_RIGHT:
-                self.stdscr.clear()
-                self.typed_text("You look at the paintings on your right...")
-                time.sleep(1)
+                thought_chunk_one = "You see a smal child playing in a field of flowers."
+                thought_chunk_two = "In the distance you can see a house."
+                thought_chunk_three = "You grip your chest."
+                thought_chunk_four = "Why are you sad?"
+                for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four]:
+                    self.stdscr.clear()
+                    self.typed_text(observed_thought)
+                    time.sleep(1.4)
                 
             elif chosen_hallway_option == HallwayChoices.DOOR:
                 self.stdscr.clear()
@@ -639,10 +775,10 @@ class Game:
     def play_game(self):
         while True:
             # insert the actual game logic here
-            #self.scenes.bedroom(self.bedroom_menu)
-            #self.scenes.hallway(self.hallway_menu)
-            #self.scenes.mystery_room(self.question_menu)
-            self.scenes.refusal(10)
+            self.scenes.bedroom(self.bedroom_menu)
+            self.scenes.hallway(self.hallway_menu)
+            self.scenes.mystery_room(self.question_menu)
+            #self.scenes.refusal(10)
             key = self.stdscr.getch()
             if key == ord('p') or key == ord('P'):
                 self.pause_menu.print_menu()
