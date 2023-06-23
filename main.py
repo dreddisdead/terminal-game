@@ -525,15 +525,15 @@ class GameScenes:
         thought_chunk_one = "A chilling presence fills the air, as a voice cuts through the void, resonating with an otherworldly aura."
         thought_chunk_two = "Its source eludes you, defying logic and reason."
         thought_chunk_three = "Reality bends as the enigmatic voice resonates within your very being."
-        thought_chunk_four = "The radio's absence bewilders your senses, leaving you disoriented."
-        thought_chunk_five = "Uh... An eerie sense of displacement washes over you, as if the fabric of existence itself has been unraveled."
+        thought_chunk_four = "The radio's absence leaves you disoriented."
+        thought_chunk_five = "An eerie sense of displacement washes over you, as if the fabric of existence itself has been unraveled."
         thought_chunk_six = "The familiar room fades into a distant memory, replaced by an abyss of infinite darkness."
         thought_chunk_seven = "'How did I get here?' you ponder, your thoughts swallowed by the enigma surrounding you."
-        thought_chunk_eight = "Lost within this boundless void, you confront the absence of boundaries and the palpable weight of uncertainty."
-        thought_chunk_nine = "No walls confine you, no ceiling shelters you, and no floor supports your footing."
-        thought_chunk_ten = "In this desolate expanse, only the echoes of your own thoughts and the haunting voice persist."
+        thought_chunk_eight = "No walls confine you, no ceiling shelters you, and no floor supports your footing."
+        thought_chunk_nine = "In this desolate expanse, only the echoes of your own thoughts and the haunting voice persist."
+        
 
-        for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five, thought_chunk_six, thought_chunk_seven, thought_chunk_eight, thought_chunk_nine, thought_chunk_ten]:
+        for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five, thought_chunk_six, thought_chunk_seven, thought_chunk_eight, thought_chunk_nine]:
             self.stdscr.clear()
             self.typed_text(observed_thought)
             time.sleep(1.4)
@@ -541,14 +541,14 @@ class GameScenes:
         self.stdscr.clear()    
         blue_message_one = "You find yourself ensnared in the clutches of a relentless panic, do you not?"
         blue_message_two = "Listen closely, for what I'm about to disclose may shatter your perception."
-        blue_message_three = "Amidst the labyrinth of your bewilderment, know that I, too, am lost."
-        blue_message_four = "This realm denies your departure, and I bear witness to your inner turmoil."
-        blue_message_five = "Rest assured, you tread upon forbidden grounds, beyond the domain of the living."
-        blue_message_six = "This ethereal void beckons no mortal soul, for it exists in realms untrodden."
-        blue_message_seven = "Ah..."
-        blue_message_eight = "I shall bestow upon you the solace of answers, scarce as they may be."
-        blue_message_nine = "Your multitude of queries has not gone unnoticed."
-        blue_message_ten = "Etched upon your visage, your thirst for knowledge is unmistakable."
+        blue_message_three = "This realm denies your departure, and I bear witness to your inner turmoil."
+        blue_message_four = "Rest assured, you tread upon forbidden grounds, beyond the domain of the living."
+        blue_message_five = "You shouldn't be here."
+        blue_message_six = "It's not your time."
+        blue_message_seven = "At least, not yet."
+        blue_message_eight = "You have questions, do you not?"
+        blue_message_nine = "I can sense your curiosity, your desire to understand."
+        blue_message_ten = "It's only natural, after all."
 
         for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four, blue_message_five, blue_message_six, blue_message_seven, blue_message_eight, blue_message_nine, blue_message_ten]:
             self.stdscr.clear()
@@ -563,10 +563,11 @@ class GameScenes:
             if chosen_question_option == QuestionChoices.WHO:
                 self.stdscr.clear()
                 blue_message_one = "The very essence of my being eludes definition in the realms of understanding."
-                blue_message_two = "To fathom the enigma of my identity is to grasp at ethereal wisps."
-                blue_message_three = "Beware, for the revelation you seek may unravel the tapestry of your reality."
+                blue_message_two = "You'd have better luck trying to win the lottery... Twice."
+                blue_message_three = "If you truly wish to know, then I have a question for you."
+                blue_message_four = "Are you willing to forget everything you think you know?"
 
-                for message in [blue_message_one, blue_message_two, blue_message_three]:
+                for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four]:
                     self.stdscr.clear()
                     self.typed_text(message, curses.color_pair(2))
                     time.sleep(.8)
@@ -574,24 +575,23 @@ class GameScenes:
             elif chosen_question_option == QuestionChoices.WHAT:
                 self.stdscr.clear()
                 blue_message_one = "A place where the threads of reality intertwine and manifest your desires."
-                blue_message_two = "A realm shrouded in enigma and possibility."
-                blue_message_three = "Here, the rules that govern existence bend to the will of imagination."
-                blue_message_four = "It defies comprehension, yet beckons you to explore its depths."
-                blue_message_five = "This is a realm of limitless potential and unfathomable wonders."
-                blue_message_six = "An ethereal landscape where the boundaries of possibilities blur."
+                blue_message_two = "A realm shrouded in limitless potential and possibility."
+                blue_message_three = "It defies comprehension, yet beckons you to explore its depths."
+                blue_message_four = "A place where the boundaries of possibilities blur."
 
-                for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four, blue_message_five, blue_message_six]:
+                for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four]:
                     self.stdscr.clear()
                     self.typed_text(message, curses.color_pair(2))
                     time.sleep(1)
+                    
             elif chosen_question_option == QuestionChoices.WHY:
                 self.stdscr.clear()
                 blue_message_one = "Why dwell on the past? The present is all that matters now."
-                blue_message_two = "The reasons may elude you, but the purpose is clear."
-                blue_message_three = "You're here for a reason, whether you understand it or not."
-                blue_message_four = "The path that led you here is irrelevant. Embrace the present."
+                blue_message_two = "You're here for a reason, whether you understand it or not."
+                blue_message_three = "The path that led you here is irrelevant."
+                blue_message_four = "Embrace the present."
 
-                for message in [blue_message_one, blue_message_two, blue_message_three]:
+                for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four]:
                     self.stdscr.clear()
                     self.typed_text(message, curses.color_pair(2))
                     time.sleep(.8)
@@ -701,10 +701,10 @@ class GameScenes:
                     time.sleep(1.4)
                     
             elif chosen_hallway_option == HallwayChoices.PAINTINGS_RIGHT:
-                thought_chunk_one = "You see a smal child playing in a field of flowers."
+                thought_chunk_one = "You see a small child playing in a field of flowers."
                 thought_chunk_two = "In the distance you can see a house."
                 thought_chunk_three = "You grip your chest."
-                thought_chunk_four = "Why are you sad?"
+                thought_chunk_four = "It feels familiar, but you can't remember why."
                 for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four]:
                     self.stdscr.clear()
                     self.typed_text(observed_thought)
@@ -717,8 +717,7 @@ class GameScenes:
                     thought_chunk_two = "Just enough to see through the crack..."
                     thought_chunk_three = "There's no one in the room, but you can hear music playing."
                     thought_chunk_four = "It sounds like it's coming from a radio."
-                    thought_chunk_five = "You can't make out the song, but it sounds familiar."
-                    for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five]:
+                    for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four]:
                         self.stdscr.clear()
                         self.typed_text(observed_thought)
                         time.sleep(1.4)
