@@ -6,7 +6,7 @@ from curses import wrapper
 from curses.textpad import Textbox, rectangle
 from enum import Enum
 
-# Define an enumeration for menu options
+# Define enums for menus and choices
 class MenuOptions(Enum):
     PLAY = "Play"
     EXIT = "Exit"
@@ -73,6 +73,20 @@ class BossBattleQuitChoices(Enum):
     YES = "Yes"
     NO = "No"
     
+class FreeWillChoices(Enum):
+    FREE_WILL = "We are free and every choice is ours."
+    FATE = "Everything is already decided, we just don't know it."
+    CHOICE_AND_FATE = "Our choices are a mix of what we want and what's meant to happen."
+    DONT_KNOW = "What if we're just playing out a story that's already been written?"
+    
+class ControlChoices(Enum):
+    YES = "Yes"
+    NO = "No"
+    
+
+class WhoChoices(Enum):
+    IDK = "I don't know"
+    YOU = "I am you"
     
     
 class Menu:
@@ -120,6 +134,7 @@ class GameScenes:
         self.stdscr = stdscr
         self.MAX_WILLPOWER = 20
         self.willpower = self.MAX_WILLPOWER
+         
                 
     def wrap_text(self, text, width):
         words = text.split(' ')
@@ -198,7 +213,7 @@ class GameScenes:
         if chosen_option == choices[0]:
             # Handle the outcome for the first choice
             self.stdscr.clear()
-            self.typed_text(f"I believe in you!")
+            self.typed_text("I believe in you!", curses.color_pair(4))
             time.sleep(1.5)
             self.refusal(10)
         elif chosen_option == choices[1]:
@@ -237,13 +252,10 @@ class GameScenes:
         self.typed_text("A mysterious figure stands before you.")
         time.sleep(1)        
         
-        blue_message_one = "You are trapped within these enigmatic confines. Freedom eludes your grasp, denied by my hand."
-        blue_message_two = "This realm materializes your deepest fears, a maze of thoughts intricately crafted by your own mind."
-        blue_message_three = "I embody your doubts, regrets, and the echoes of past choices, intertwined with the fabric of this place."
-        blue_message_four = "To break these chains, you must confront me fearlessly, face the shadows that haunt you, and emerge triumphant."
-
+        blue_message_one = "I embody your doubts, regrets, and the echoes of past choices, intertwined with the fabric of this place."
+        blue_message_two = "If you wish to leave, you must overcome me."
         
-        for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four]:
+        for message in [blue_message_one, blue_message_two]:
             self.stdscr.clear()
             self.typed_text(message, curses.color_pair(2))
             time.sleep(1.5)
@@ -259,26 +271,32 @@ class GameScenes:
         if chosen_option == choices[0]:
             # Handle the outcome for the first choice
             self.stdscr.clear()
-            self.typed_text("You're an insignificant, mere speck in the vastness of the universe.", curses.color_pair(2))
-            self.willpower -= 5
+            self.typed_text("You're an insignificant, mere speck in the vastness of the universe.", curses.color_pair(3))
+            self.willpower -= 8
             time.sleep(1.5)
         elif chosen_option == choices[1]:
             # Handle the outcome for the second choice
             self.stdscr.clear()
-            self.typed_text("Your heart is racing at the speed of light. How amusing.", curses.color_pair(2))
+            self.typed_text("Your heart is racing at the speed of light.", curses.color_pair(2))
+            time.sleep(1.5)
+            self.stdscr.clear()
+            self.typed_text("Just kidding, that's not actually possible.", curses.color_pair(2))
             self.willpower += 5
             time.sleep(1.5)
         elif chosen_option == choices[2]:
             # Handle the outcome for the third choice
             self.stdscr.clear()
-            self.typed_text("Take a deep breath, it's not like I'm going to kill you.", curses.color_pair(2))
+            self.typed_text("Take a deep breath, it's not like I'm going to kill you.", curses.color_pair(4))
             self.willpower += 8
             time.sleep(1.5)
         elif chosen_option == choices[3]:
             # Handle the outcome for the fourth choice
             self.stdscr.clear()
-            self.typed_text("Oh...looks like you've fallen in a pit of dispair.", curses.color_pair(2))
-            self.willpower -= 8
+            self.typed_text("I pity you. But, then again, I am pity.", curses.color_pair(2))
+            time.sleep(1.5)
+            self.stdscr.clear()
+            self.typed_text("Now that's pitiful.", curses.color_pair(2))
+            self.willpower -= 5
             time.sleep(1.5)
 
         self.stdscr.clear()
@@ -293,15 +311,16 @@ class GameScenes:
         if chosen_option == choices[0]:
             # Handle the outcome for the first choice
             self.stdscr.clear()
-            self.typed_text("Do you sersiously think you can be anything more than what you are now?", curses.color_pair(3))
+            self.typed_text("Do you sersiously think you can be anything more than what you are now?", curses.color_pair(2))
             self.willpower -= 5
             time.sleep(1.5)
         elif chosen_option == choices[1]:
             # Handle the outcome for the second choice
             self.stdscr.clear()
-            self.typed_text("Can you even remember the last time you felt happy?", curses.color_pair(2))
-            self.willpower += 5
+            self.typed_text("You can't expect others to stick around if you don't even try to be a better person.", curses.color_pair(4))
+            self.willpower += 8
             time.sleep(1.5)
+            
         elif chosen_option == choices[2]:
             # Handle the outcome for the third choice
             self.stdscr.clear()
@@ -311,8 +330,8 @@ class GameScenes:
         elif chosen_option == choices[3]:
             # Handle the outcome for the fourth choice
             self.stdscr.clear()
-            self.typed_text("You can't expect others to stick around if you don't even try to be a better person.", curses.color_pair(2))
-            self.willpower += 8
+            self.typed_text("Can you even remember the last time you felt happy?", curses.color_pair(2))
+            self.willpower += 5
             time.sleep(1.5)
             
         self.stdscr.clear()
@@ -327,25 +346,31 @@ class GameScenes:
         if chosen_option == choices[0]:
             # Handle the outcome for the first choice
             self.stdscr.clear()
-            self.typed_text("You're a horrible person.", curses.color_pair(3))
+            self.typed_text("Do you seriously think it's that easy?", curses.color_pair(3))
+            time.sleep(1.5)
+            self.stdscr.clear()
+            self.typed_text("What a joke.", curses.color_pair(3))
             self.willpower -= 5
             time.sleep(1.5)
         elif chosen_option == choices[1]:
             # Handle the outcome for the second choice
             self.stdscr.clear()
-            self.typed_text("You're thinking too hard about this!", curses.color_pair(2))
+            self.typed_text("Watching you struggle fills me with joy.", curses.color_pair(2))
             self.willpower += 5
             time.sleep(1.5)
         elif chosen_option == choices[2]:
             # Handle the outcome for the third choice
             self.stdscr.clear()
-            self.typed_text("How can you live with yourself?", curses.color_pair(2))
+            self.typed_text("How can you live with yourself?", curses.color_pair(3))
             self.willpower -= 8
             time.sleep(1.5)
         elif chosen_option == choices[3]:
             # Handle the outcome for the fourth choice
             self.stdscr.clear()
-            self.typed_text("You can't be serious.", curses.color_pair(3))
+            self.typed_text("When this is all over, we can laugh about this over breakfast with Mom!", curses.color_pair(4))
+            time.sleep(1.5)
+            self.stdscr.clear()
+            self.typed_text("Oh wait, she's dead.", curses.color_pair(3))
             self.willpower += 8
             time.sleep(1.5)
             
@@ -353,7 +378,7 @@ class GameScenes:
         self.stdscr.refresh()
         
         # Fourth question screen
-        title = "If you had to give up one, which would it be??"
+        title = "If you had to give up one, which would it be?"
         choices = list(GiveUpChoices)
         chosen_option = self.question_screen(title, choices)
 
@@ -361,13 +386,16 @@ class GameScenes:
         if chosen_option == choices[0]:
             # Handle the outcome for the first choice
             self.stdscr.clear()
-            self.typed_text("How would your mother feel?", curses.color_pair(2))
+            self.typed_text("How would your mother feel?", curses.color_pair(3))
+            time.sleep(1.5)
+            self.stdscr.clear()
+            self.typed_text("Personally, I don't think she'll feel much.", curses.color_pair(3))
             self.willpower -= 8
             time.sleep(1.5)
         elif chosen_option == choices[1]:
             # Handle the outcome for the second choice
             self.stdscr.clear()
-            self.typed_text("You're just like the rest of them.", curses.color_pair(3))
+            self.typed_text("You're just like the rest of them.", curses.color_pair(2))
             self.willpower += 5
             time.sleep(1.5)
         elif chosen_option == choices[2]:
@@ -379,18 +407,102 @@ class GameScenes:
         elif chosen_option == choices[3]:
             # Handle the outcome for the fourth choice
             self.stdscr.clear()
-            self.typed_text("Can't help but feel sorry for you.", curses.color_pair(2))
+            self.typed_text("Can't help but feel sorry for you.", curses.color_pair(4))
+            time.sleep(1.5)
+            self.stdscr.clear()
+            self.typed_text("I guess that makes me sorry for myself.", curses.color_pair(4))
+            time.sleep(1.5)
+            self.stdscr.clear()
+            self.typed_text("Weird.", curses.color_pair(4))
             self.willpower += 8
             time.sleep(1.5)
-            
-        # ... continue with more question screens ...
+                    
+        # Fifth question screen
+        title = "Are we free to make our own choices, or is everything already decided?"
+        choices = list(FreeWillChoices)
+        chosen_option = self.question_screen(title, choices)
 
+        if chosen_option == choices[0]:
+            self.stdscr.clear()
+            self.typed_text("It wasn't your fault.", curses.color_pair(4))
+            time.sleep(1.5)
+            self.stdscr.clear()
+            self.typed_text("There was nothing you could do.", curses.color_pair(4))
+            self.willpower += 8
+            time.sleep(1.5)
+        elif chosen_option == choices[1]:
+            self.stdscr.clear()
+            self.typed_text("Just a single pawn on the board.", curses.color_pair(2))
+            self.willpower -= 5
+            time.sleep(1.5)
+        elif chosen_option == choices[2]:
+            self.stdscr.clear()
+            self.typed_text("Do you even have a belief you didn't borrow from someone else?", curses.color_pair(2))
+            self.willpower += 5
+            time.sleep(1.5)
+        elif chosen_option == choices[3]:
+            self.stdscr.clear()
+            self.typed_text("You think so little of yourself.", curses.color_pair(3))
+            time.sleep(1.5)
+            self.stdscr.clear()
+            self.typed_text("And you really expect to leave?", curses.color_pair(3))
+            time.sleep(1.5)
+            self.stdscr.clear()
+            self.typed_text("You're making this too easy.", curses.color_pair(3))
+            self.willpower -= 8
+            time.sleep(1.5)
+            
+            
+            # ... continue with more question screens ...
+            
+        # Sixth question screen
+        title = "Are you in control?"
+        choices = list(ControlChoices)
+        chosen_option = self.question_screen(title, choices)
+
+        if chosen_option == choices[0]:
+            self.stdscr.clear()
+            self.typed_text("Don't let anyone tell you otherwise.", curses.color_pair(4))
+            time.sleep(1.5)
+            self.stdscr.clear()
+            self.typed_text("You're the writer of your own story.", curses.color_pair(4))
+            self.willpower += 0
+            time.sleep(1.5)
+        elif chosen_option == choices[1]:
+            self.stdscr.clear()
+            self.typed_text("Who told you that?", curses.color_pair(2))
+            self.willpower -= 0
+            time.sleep(1.5)
+            
+        # Seventh question screen
+        title = "Who are you?"
+        choices = list(WhoChoices)
+        chosen_option = self.question_screen(title, choices)
+
+        if chosen_option == choices[0]:
+            self.stdscr.clear()
+            self.typed_text("We both know that isn't true.", curses.color_pair(3))
+            time.sleep(1.5)
+            self.stdscr.clear()
+            self.typed_text("Well, that's disappointing.", curses.color_pair(3))
+            self.willpower -= 8
+            time.sleep(1.5)
+        elif chosen_option == choices[1]:
+            self.stdscr.clear()
+            self.typed_text("You're getting good at this.", curses.color_pair(4))
+            time.sleep(1.5)
+            self.stdscr.clear()
+            self.typed_text("I'm starting to root for you.", curses.color_pair(4))
+            self.willpower += 8
+            time.sleep(1.5)
+        
+
+            
         # Checks status of willpower
         if self.willpower > self.MAX_WILLPOWER:
             self.stdscr.clear()
-            self.typed_text("You have overcome your fears and regrets. You are free to leave.", curses.color_pair(2))
-            time.sleep(1.5)
             # end game sequence
+            self.ending()
         
         else:
             self.stdscr.clear()
@@ -399,13 +511,21 @@ class GameScenes:
             self.stdscr.clear()
             self.typed_text("What a shame.", curses.color_pair(3))
             time.sleep(1.5)
+            # game over sequence
             self.game_over()
             
-            # game over sequence
+            
             
         self.stdscr.nodelay(False)  # Make getch blocking again
         
         
+    # Ending scene
+    def ending(self):
+        self.stdscr.nodelay(True)  # Make getch non-blocking
+        
+        self.typed_text("You have overcome your fears and regrets. You are free to leave.", curses.color_pair(2))
+        time.sleep(1.5)
+
             
     def intro(self):
         self.stdscr.nodelay(True)  # Make getch non-blocking
@@ -446,6 +566,9 @@ class GameScenes:
 
         self.stdscr.nodelay(False)  # Return getch to blocking mode
         
+        return user_name
+    
+    # Beginning of the game     
     def bedroom(self, bedroom_menu):
         glasses_found = False
         # No delay on getch
@@ -528,12 +651,11 @@ class GameScenes:
         thought_chunk_four = "The radio's absence leaves you disoriented."
         thought_chunk_five = "An eerie sense of displacement washes over you, as if the fabric of existence itself has been unraveled."
         thought_chunk_six = "The familiar room fades into a distant memory, replaced by an abyss of infinite darkness."
-        thought_chunk_seven = "'How did I get here?' you ponder, your thoughts swallowed by the enigma surrounding you."
+        thought_chunk_seven = "You are alone, lost in a void of nothingness."
         thought_chunk_eight = "No walls confine you, no ceiling shelters you, and no floor supports your footing."
-        thought_chunk_nine = "In this desolate expanse, only the echoes of your own thoughts and the haunting voice persist."
         
 
-        for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five, thought_chunk_six, thought_chunk_seven, thought_chunk_eight, thought_chunk_nine]:
+        for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five, thought_chunk_six, thought_chunk_seven, thought_chunk_eight]:
             self.stdscr.clear()
             self.typed_text(observed_thought)
             time.sleep(1.4)
@@ -563,11 +685,9 @@ class GameScenes:
             if chosen_question_option == QuestionChoices.WHO:
                 self.stdscr.clear()
                 blue_message_one = "The very essence of my being eludes definition in the realms of understanding."
-                blue_message_two = "You'd have better luck trying to win the lottery... Twice."
-                blue_message_three = "If you truly wish to know, then I have a question for you."
-                blue_message_four = "Are you willing to forget everything you think you know?"
+                blue_message_two = "Are you willing to forget everything you think you know?"     
 
-                for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four]:
+                for message in [blue_message_one, blue_message_two]:
                     self.stdscr.clear()
                     self.typed_text(message, curses.color_pair(2))
                     time.sleep(.8)
@@ -598,7 +718,7 @@ class GameScenes:
                 
             elif chosen_question_option == QuestionChoices.LEAVE:
                 self.stdscr.clear()
-                self.typed_text("HA HA HA HA HA HA", curses.color_pair(3))
+                self.typed_text("Erzrzore, vg'f bsgra gur ynfg xrl va gur ohapu gung bcraf gur ybpx. Qba'g tvir hc.", curses.color_pair(4)) #13
                 time.sleep(.03)
                 self.stdscr.clear()
                 blue_message_one = "So, you dare to defy the boundaries?"
@@ -609,9 +729,8 @@ class GameScenes:
                 blue_message_six = "Here, time stands still, frozen in eternal torment."
                 blue_message_seven = "No one has escaped."
                 blue_message_eight = "No one ever will."
-                blue_message_nine = "The more you struggle, the tighter the grip becomes."
 
-                for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four, blue_message_five, blue_message_six, blue_message_seven, blue_message_eight, blue_message_nine]:
+                for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four, blue_message_five, blue_message_six, blue_message_seven, blue_message_eight]:
                     self.stdscr.clear()
                     self.typed_text(message, curses.color_pair(2))
                     time.sleep(1.5)
@@ -634,10 +753,9 @@ class GameScenes:
             thought_chunk_three = "Every time you turn the corner, you're back in the same hallway."
             thought_chunk_four = "Looking down the same hallway, you see the same door."
             thought_chunk_five = "Over."
-            thought_chunk_six = "And over."
-            thought_chunk_seven = "And over."
-            thought_chunk_eight = "And over."
-            for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five, thought_chunk_six, thought_chunk_seven, thought_chunk_eight]:
+            thought_chunk_six = "and over."
+            thought_chunk_seven = "and over."
+            for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five, thought_chunk_six, thought_chunk_seven]:
                 self.stdscr.clear()
                 self.typed_text(observed_thought)
                 time.sleep(1.4)
@@ -656,10 +774,10 @@ class GameScenes:
             thought_chunk_three = "Gently, you place your hand on the doorknob."
             thought_chunk_four = "The music stops abrubtly."
             thought_chunk_five = "Your heart rate increases."
-            thought_chunk_six = "You don't know why, but your heart is thumping in your chest."
-            thought_chunk_seven = "You begin to sweat."
+            thought_chunk_six = "You don't know why, but your hands are sweating."
+            thought_chunk_seven = "It's hard to breathe."
             thought_chunk_eight = "'Just open the door,' you think to yourself."
-            for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five]:
+            for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five, thought_chunk_six, thought_chunk_seven, thought_chunk_eight]:
                 self.stdscr.clear()
                 self.typed_text(observed_thought)
                 time.sleep(1.4)
@@ -699,6 +817,9 @@ class GameScenes:
                     self.stdscr.clear()
                     self.typed_text(observed_thought)
                     time.sleep(1.4)
+                self.stdscr.clear()
+                self.typed_text("Mdmzg abmx nwzeizl, vw uibbmz pwe auitt, qa xzwozmaa bweizla gwcz owit.", curses.color_pair(4))#8
+                time.sleep(.4)
                     
             elif chosen_hallway_option == HallwayChoices.PAINTINGS_RIGHT:
                 thought_chunk_one = "You see a small child playing in a field of flowers."
@@ -741,8 +862,7 @@ class GameScenes:
                         
         # Reset getch to blocking mode
         self.stdscr.nodelay(False)
-        
-    
+  
 class Game:
     def __init__(self, stdscr):
         self.stdscr = stdscr
@@ -774,10 +894,10 @@ class Game:
     def play_game(self):
         while True:
             # insert the actual game logic here
-            self.scenes.bedroom(self.bedroom_menu)
-            self.scenes.hallway(self.hallway_menu)
-            self.scenes.mystery_room(self.question_menu)
-            #self.scenes.refusal(10)
+            #self.scenes.bedroom(self.bedroom_menu)
+            #self.scenes.hallway(self.hallway_menu)
+            #self.scenes.mystery_room(self.question_menu)
+            self.scenes.refusal(10)
             key = self.stdscr.getch()
             if key == ord('p') or key == ord('P'):
                 self.pause_menu.print_menu()
@@ -790,6 +910,7 @@ class Game:
 def main(stdscr):
     curses.init_pair(2, curses.COLOR_CYAN, curses.COLOR_BLACK)
     curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK)
+    curses.init_pair(4, curses.COLOR_GREEN, curses.COLOR_BLACK)
     game = Game(stdscr)
     game.game_loop()
 
