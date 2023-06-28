@@ -372,7 +372,7 @@ class GameScenes:
             self.stdscr.clear()
             self.typed_text("Oh wait, she's dead.", curses.color_pair(3))
             self.willpower += 8
-            time.sleep(1.5)
+            time.sleep(4)
             
         self.stdscr.clear()
         self.stdscr.refresh()
@@ -510,7 +510,7 @@ class GameScenes:
             time.sleep(1.5)
             self.stdscr.clear()
             self.typed_text("What a shame.", curses.color_pair(3))
-            time.sleep(1.5)
+            time.sleep(3)
             # game over sequence
             self.game_over()
             
@@ -523,9 +523,39 @@ class GameScenes:
     def ending(self):
         self.stdscr.nodelay(True)  # Make getch non-blocking
         
-        self.typed_text("You have overcome your fears and regrets. You are free to leave.", curses.color_pair(2))
+        self.typed_text("Wow.", curses.color_pair(2))
         time.sleep(1.5)
-
+        self.stdscr.clear()
+        self.typed_text("You really did it.", curses.color_pair(2))
+        time.sleep(1.5)
+        self.stdscr.clear()
+        self.typed_text("Well, if you're truly ready to leave", curses.color_pair(2))
+        time.sleep(1.5)
+        self.stdscr.clear()
+        self.typed_text("all you have to do is move forward.", curses.color_pair(2))
+        time.sleep(4)
+        self.stdscr.clear()
+        self.typed_text("...")
+        time.sleep(1.5)
+        self.stdscr.clear()
+        self.typed_text("Gradually, consciousness flows back into me, a quiet stream creeping through a barren landscape, accompanied by the distinct scent of disinfectant and the hushed rustle of activity beyond my room. My eyes flutter open to a world steeped in sterile whites and unnervingly bright lights.")
+        time.sleep(1.8)
+        self.stdscr.clear()
+        self.typed_text("The cold, crisp sheets press against my skin, the discomfort of IV lines a silent reminder of my fragile state, the bitter tang of medication on my tongue a grim welcome. It's like awakening from one dream into another, only this one is punctuated by the clinical hum of machines and the cold touch of reality.")
+        time.sleep(1.8)
+        self.stdscr.clear()
+        self.typed_text("Then, without warning, the past comes crashing down. Memories appear like jigsaw puzzle pieces falling into place: the terrifying wail of tires sliding on pavement, the world spinning in a dizzying dance, and then the suffocating dark.")
+        time.sleep(1.8)
+        self.stdscr.clear()
+        self.typed_text("My parents were there in the car, their laughter hanging in the air one moment, replaced by panic the next. Their joyous faces, so full of life, are seared into my mind, a poignant contrast to the devastating silence that engulfs me now.")
+        time.sleep(1.8)
+        self.stdscr.clear()
+        self.typed_text("A nurse walks in, her face etched with empathy. Her soft words land like hammer blows, confirming the bitter truth I'm beginning to comprehend.")
+        time.sleep(1.8)
+        self.stdscr.clear()
+        self.typed_text("The world outside this hospital room has undergone a cruel transformation. It's a world I must now navigate in solitude.")
+        time.sleep(1.8)
+        self.stdscr.clear()
             
     def intro(self):
         self.stdscr.nodelay(True)  # Make getch non-blocking
@@ -664,15 +694,12 @@ class GameScenes:
         blue_message_one = "You find yourself ensnared in the clutches of a relentless panic, do you not?"
         blue_message_two = "Listen closely, for what I'm about to disclose may shatter your perception."
         blue_message_three = "This realm denies your departure, and I bear witness to your inner turmoil."
-        blue_message_four = "Rest assured, you tread upon forbidden grounds, beyond the domain of the living."
-        blue_message_five = "You shouldn't be here."
-        blue_message_six = "It's not your time."
-        blue_message_seven = "At least, not yet."
-        blue_message_eight = "You have questions, do you not?"
-        blue_message_nine = "I can sense your curiosity, your desire to understand."
-        blue_message_ten = "It's only natural, after all."
-
-        for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four, blue_message_five, blue_message_six, blue_message_seven, blue_message_eight, blue_message_nine, blue_message_ten]:
+        blue_message_four = "You are not dead, nor are you alive."
+        blue_message_five = "It's not your time."
+        blue_message_six = "At least, not yet."
+        blue_message_seven = "I can sense your curiosity, your desire to understand."
+        blue_message_eight = "It's only natural, after all."
+        for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four, blue_message_five, blue_message_six, blue_message_seven, blue_message_eight]:
             self.stdscr.clear()
             self.typed_text(message, curses.color_pair(2))
             time.sleep(1)
@@ -697,9 +724,7 @@ class GameScenes:
                 blue_message_one = "A place where the threads of reality intertwine and manifest your desires."
                 blue_message_two = "A realm shrouded in limitless potential and possibility."
                 blue_message_three = "It defies comprehension, yet beckons you to explore its depths."
-                blue_message_four = "A place where the boundaries of possibilities blur."
-
-                for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four]:
+                for message in [blue_message_one, blue_message_two, blue_message_three]:
                     self.stdscr.clear()
                     self.typed_text(message, curses.color_pair(2))
                     time.sleep(1)
@@ -708,10 +733,8 @@ class GameScenes:
                 self.stdscr.clear()
                 blue_message_one = "Why dwell on the past? The present is all that matters now."
                 blue_message_two = "You're here for a reason, whether you understand it or not."
-                blue_message_three = "The path that led you here is irrelevant."
-                blue_message_four = "Embrace the present."
-
-                for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four]:
+                blue_message_three = "Embrace the present."
+                for message in [blue_message_one, blue_message_two, blue_message_three]:
                     self.stdscr.clear()
                     self.typed_text(message, curses.color_pair(2))
                     time.sleep(.8)
@@ -719,18 +742,13 @@ class GameScenes:
             elif chosen_question_option == QuestionChoices.LEAVE:
                 self.stdscr.clear()
                 self.typed_text("Erzrzore, vg'f bsgra gur ynfg xrl va gur ohapu gung bcraf gur ybpx. Qba'g tvir hc.", curses.color_pair(4)) #13
-                time.sleep(.03)
                 self.stdscr.clear()
                 blue_message_one = "So, you dare to defy the boundaries?"
                 blue_message_two = "You think there's a way out, a glimmer of hope."
                 blue_message_three = "I'm afraid you're mistaken."
-                blue_message_four = "This place is a labyrinth of despair."
-                blue_message_five = "Each step you take leads to a deeper abyss."
-                blue_message_six = "Here, time stands still, frozen in eternal torment."
-                blue_message_seven = "No one has escaped."
-                blue_message_eight = "No one ever will."
-
-                for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four, blue_message_five, blue_message_six, blue_message_seven, blue_message_eight]:
+                blue_message_four = "No one has escaped."
+                blue_message_five = "No one ever will." 
+                for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four, blue_message_five]:
                     self.stdscr.clear()
                     self.typed_text(message, curses.color_pair(2))
                     time.sleep(1.5)
@@ -769,15 +787,14 @@ class GameScenes:
                 self.stdscr.clear()
                 self.typed_text(observed_thought)
                 time.sleep(1.8)
-            thought_chunk_one = "You slowly approach the door."
-            thought_chunk_two = "You can still hear music playing on the other side."
-            thought_chunk_three = "Gently, you place your hand on the doorknob."
-            thought_chunk_four = "The music stops abrubtly."
-            thought_chunk_five = "Your heart rate increases."
-            thought_chunk_six = "You don't know why, but your hands are sweating."
-            thought_chunk_seven = "It's hard to breathe."
-            thought_chunk_eight = "'Just open the door,' you think to yourself."
-            for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five, thought_chunk_six, thought_chunk_seven, thought_chunk_eight]:
+            thought_chunk_one = "You can still hear music playing on the other side."
+            thought_chunk_two = "Gently, you place your hand on the doorknob."
+            thought_chunk_three = "The music stops abrubtly."
+            thought_chunk_four = "Your heart rate increases."
+            thought_chunk_five = "You don't know why, but your hands are sweating."
+            thought_chunk_six = "It's hard to breathe."
+            thought_chunk_seven = "'Just open the door,' you think to yourself." 
+            for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five, thought_chunk_six, thought_chunk_seven]:
                 self.stdscr.clear()
                 self.typed_text(observed_thought)
                 time.sleep(1.4)
@@ -795,10 +812,9 @@ class GameScenes:
             time.sleep(1)
         # Display thought sequence
         thought_chunk_one = "You feel a sense of calm as you look at the paintings on the wall."
-        thought_chunk_two = "'What a nice place to live.' you think to yourself."
-        thought_chunk_three = "As you look down the hallway, you see a door ahead of you."
-        thought_chunk_four = "It's not quite closed all the way, and you can see a sliver of light coming from the other side."
-        for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four]:
+        thought_chunk_two = "As you look down the hallway, you see a door ahead of you."
+        thought_chunk_three = "It's not quite closed all the way, and you can see a sliver of light coming from the other side."
+        for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three]:
             self.stdscr.clear()
             self.typed_text(observed_thought)
             time.sleep(1.4)
@@ -819,7 +835,7 @@ class GameScenes:
                     time.sleep(1.4)
                 self.stdscr.clear()
                 self.typed_text("Mdmzg abmx nwzeizl, vw uibbmz pwe auitt, qa xzwozmaa bweizla gwcz owit.", curses.color_pair(4))#8
-                time.sleep(.4)
+                
                     
             elif chosen_hallway_option == HallwayChoices.PAINTINGS_RIGHT:
                 thought_chunk_one = "You see a small child playing in a field of flowers."
@@ -897,7 +913,8 @@ class Game:
             #self.scenes.bedroom(self.bedroom_menu)
             #self.scenes.hallway(self.hallway_menu)
             #self.scenes.mystery_room(self.question_menu)
-            self.scenes.refusal(10)
+            #self.scenes.refusal(10)
+            self.scenes.ending()
             key = self.stdscr.getch()
             if key == ord('p') or key == ord('P'):
                 self.pause_menu.print_menu()
