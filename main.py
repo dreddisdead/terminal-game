@@ -523,39 +523,36 @@ class GameScenes:
     def ending(self):
         self.stdscr.nodelay(True)  # Make getch non-blocking
         
-        self.typed_text("Wow.", curses.color_pair(2))
-        time.sleep(1.5)
-        self.stdscr.clear()
-        self.typed_text("You really did it.", curses.color_pair(2))
-        time.sleep(1.5)
-        self.stdscr.clear()
-        self.typed_text("Well, if you're truly ready to leave", curses.color_pair(2))
-        time.sleep(1.5)
-        self.stdscr.clear()
-        self.typed_text("all you have to do is move forward.", curses.color_pair(2))
-        time.sleep(4)
+        blue_message_one = "Wow."
+        blue_message_two = "You really did it."
+        blue_message_three = "Well, if you're truly ready to leave"
+        blue_message_four = "all you have to do is move forward."
+        for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four]:
+            self.stdscr.clear()
+            self.typed_text(message, curses.color_pair(2))
+            time.sleep(1.5)
+        time.sleep(2.5)
         self.stdscr.clear()
         self.typed_text("...")
-        time.sleep(1.5)
+        time.sleep(3)
+        
+        narration_text_one = "Gradually, consciousness flows back into me, accompanied by the distinct scent of disinfectant and the hushed rustle of activity beyond my room. My eyes flutter open to a world with unnervingly bright lights."
+        narration_text_two = "The cold, crisp sheets press against my skin, the discomfort of IV lines a silent reminder of my fragile state. It's like awakening from one dream into another, only this one is punctuated by the clinical hum of machines and the cold touch of reality."
+        narration_text_three = "Then, without warning, memories appear like jigsaw puzzle pieces falling into place: the terrifying wail of tires sliding on pavement, the world spinning in a dizzying dance, and then the suffocating dark."
+        narration_text_four = "My parents were there in the car, their laughter hanging in the air one moment, replaced by panic the next. Their joyous faces, so full of life, are seared into my mind, a poignant contrast to the devastating silence that engulfs me now."
+        narration_text_five = "A nurse walks in, her face etched with empathy. Her soft words land like hammer blows, confirming the bitter truth I'm beginning to comprehend."
+        narration_text_six = "The world outside this hospital room has undergone a cruel transformation. It's a world I must now navigate in solitude."
+        for narration in [narration_text_one, narration_text_two, narration_text_three, narration_text_four, narration_text_five, narration_text_six]:
+            self.stdscr.clear()
+            self.typed_text(narration)
+            time.sleep(1.8)
+        time.sleep(3.2)
+        
         self.stdscr.clear()
-        self.typed_text("Gradually, consciousness flows back into me, a quiet stream creeping through a barren landscape, accompanied by the distinct scent of disinfectant and the hushed rustle of activity beyond my room. My eyes flutter open to a world steeped in sterile whites and unnervingly bright lights.")
-        time.sleep(1.8)
-        self.stdscr.clear()
-        self.typed_text("The cold, crisp sheets press against my skin, the discomfort of IV lines a silent reminder of my fragile state, the bitter tang of medication on my tongue a grim welcome. It's like awakening from one dream into another, only this one is punctuated by the clinical hum of machines and the cold touch of reality.")
-        time.sleep(1.8)
-        self.stdscr.clear()
-        self.typed_text("Then, without warning, the past comes crashing down. Memories appear like jigsaw puzzle pieces falling into place: the terrifying wail of tires sliding on pavement, the world spinning in a dizzying dance, and then the suffocating dark.")
-        time.sleep(1.8)
-        self.stdscr.clear()
-        self.typed_text("My parents were there in the car, their laughter hanging in the air one moment, replaced by panic the next. Their joyous faces, so full of life, are seared into my mind, a poignant contrast to the devastating silence that engulfs me now.")
-        time.sleep(1.8)
-        self.stdscr.clear()
-        self.typed_text("A nurse walks in, her face etched with empathy. Her soft words land like hammer blows, confirming the bitter truth I'm beginning to comprehend.")
-        time.sleep(1.8)
-        self.stdscr.clear()
-        self.typed_text("The world outside this hospital room has undergone a cruel transformation. It's a world I must now navigate in solitude.")
-        time.sleep(1.8)
-        self.stdscr.clear()
+        self.typed_text("Thanks for playing!")
+        time.sleep(3)
+        sys.exit()
+            
             
     def intro(self):
         self.stdscr.nodelay(True)  # Make getch non-blocking
@@ -702,7 +699,7 @@ class GameScenes:
         for message in [blue_message_one, blue_message_two, blue_message_three, blue_message_four, blue_message_five, blue_message_six, blue_message_seven, blue_message_eight]:
             self.stdscr.clear()
             self.typed_text(message, curses.color_pair(2))
-            time.sleep(1)
+            time.sleep(2.5)
         
         question_menu.print_menu()
         
@@ -712,12 +709,11 @@ class GameScenes:
             if chosen_question_option == QuestionChoices.WHO:
                 self.stdscr.clear()
                 blue_message_one = "The very essence of my being eludes definition in the realms of understanding."
-                blue_message_two = "Are you willing to forget everything you think you know?"     
-
+                blue_message_two = "Are you willing to forget everything you think you know?"
                 for message in [blue_message_one, blue_message_two]:
                     self.stdscr.clear()
                     self.typed_text(message, curses.color_pair(2))
-                    time.sleep(.8)
+                    time.sleep(1.5)
         
             elif chosen_question_option == QuestionChoices.WHAT:
                 self.stdscr.clear()
@@ -727,7 +723,7 @@ class GameScenes:
                 for message in [blue_message_one, blue_message_two, blue_message_three]:
                     self.stdscr.clear()
                     self.typed_text(message, curses.color_pair(2))
-                    time.sleep(1)
+                    time.sleep(1.5)
                     
             elif chosen_question_option == QuestionChoices.WHY:
                 self.stdscr.clear()
@@ -737,7 +733,7 @@ class GameScenes:
                 for message in [blue_message_one, blue_message_two, blue_message_three]:
                     self.stdscr.clear()
                     self.typed_text(message, curses.color_pair(2))
-                    time.sleep(.8)
+                    time.sleep(1.5)
                 
             elif chosen_question_option == QuestionChoices.LEAVE:
                 self.stdscr.clear()
@@ -759,47 +755,48 @@ class GameScenes:
                 
         # Reset getch to blocking mode
         self.stdscr.nodelay(False) 
-        
-        # Transition to refusal to leave (Boss fight)
-        self.stdscr.clear()
-        self.refusal(10)
+
         
     def endless_hallway(self):
-            # Player realizes they're in an endless hallway
-            thought_chunk_one = "Something feels off..."
-            thought_chunk_two = "Wait a minute."
-            thought_chunk_three = "Every time you turn the corner, you're back in the same hallway."
-            thought_chunk_four = "Looking down the same hallway, you see the same door."
-            thought_chunk_five = "Over."
-            thought_chunk_six = "and over."
-            thought_chunk_seven = "and over."
-            for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five, thought_chunk_six, thought_chunk_seven]:
-                self.stdscr.clear()
-                self.typed_text(observed_thought)
-                time.sleep(1.4)
-            # Player is forced to go forward into the door  
-            thought_chunk_one = "You feel yourself begin to panic."
-            thought_chunk_two = "You take a deep breath."
-            thought_chunk_three = "You understand that you cannot escape this hallway."
-            thought_chunk_four = "There's only one way you can go."
-            thought_chunk_five = "Forward."  
-            for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five]:
-                self.stdscr.clear()
-                self.typed_text(observed_thought)
-                time.sleep(1.8)
-            thought_chunk_one = "You can still hear music playing on the other side."
-            thought_chunk_two = "Gently, you place your hand on the doorknob."
-            thought_chunk_three = "The music stops abrubtly."
-            thought_chunk_four = "Your heart rate increases."
-            thought_chunk_five = "You don't know why, but your hands are sweating."
-            thought_chunk_six = "It's hard to breathe."
-            thought_chunk_seven = "'Just open the door,' you think to yourself." 
-            for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five, thought_chunk_six, thought_chunk_seven]:
-                self.stdscr.clear()
-                self.typed_text(observed_thought)
-                time.sleep(1.4)
+        # Set getch to non-blocking mode
+        self.stdscr.nodelay(True)
+        
+        # Player realizes they're in an endless hallway
+        thought_chunk_one = "Something feels off..."
+        thought_chunk_two = "Wait a minute."
+        thought_chunk_three = "Every time you turn the corner, you're back in the same hallway."
+        thought_chunk_four = "Looking down the same hallway, you see the same door."
+        thought_chunk_five = "Over."
+        thought_chunk_six = "and over."
+        thought_chunk_seven = "and over."
+        for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five, thought_chunk_six, thought_chunk_seven]:
+            self.stdscr.clear()
+            self.typed_text(observed_thought)
+            time.sleep(1.4)
+        # Player is forced to go forward into the door  
+        thought_chunk_one = "You feel yourself begin to panic."
+        thought_chunk_two = "You take a deep breath."
+        thought_chunk_three = "You understand that you cannot escape this hallway."
+        thought_chunk_four = "There's only one way you can go."
+        thought_chunk_five = "Forward."  
+        for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five]:
+            self.stdscr.clear()
+            self.typed_text(observed_thought)
+            time.sleep(1.8)
+        thought_chunk_one = "You can still hear music playing on the other side."
+        thought_chunk_two = "Gently, you place your hand on the doorknob."
+        thought_chunk_three = "The music stops abrubtly."
+        thought_chunk_four = "Your heart rate increases."
+        thought_chunk_five = "You don't know why, but your hands are sweating."
+        thought_chunk_six = "It's hard to breathe."
+        thought_chunk_seven = "'Just open the door,' you think to yourself." 
+        for observed_thought in [thought_chunk_one, thought_chunk_two, thought_chunk_three, thought_chunk_four, thought_chunk_five, thought_chunk_six, thought_chunk_seven]:
+            self.stdscr.clear()
+            self.typed_text(observed_thought)
+            time.sleep(1.4)
             
-            
+        # Reset getch to blocking mode
+        self.stdscr.nodelay(False)    
         
     def hallway(self, hallway_menu):
         door_checked = False
@@ -874,7 +871,6 @@ class GameScenes:
                     self.typed_text("You should check out the rest of this area before you leave.")
                     time.sleep(1)
                     
-        self.endless_hallway()
                         
         # Reset getch to blocking mode
         self.stdscr.nodelay(False)
@@ -882,7 +878,7 @@ class GameScenes:
 class Game:
     def __init__(self, stdscr):
         self.stdscr = stdscr
-        self.main_menu = Menu(stdscr, list(MenuOptions), "Main Menu")
+        self.main_menu = Menu(stdscr, list(MenuOptions), "Solitude")
         self.pause_menu = Menu(stdscr, list(PauseChoices), "Paused")
         self.exit_menu = Menu(stdscr, list(ExitChoices), "Are you sure you want to exit?")
         self.bedroom_menu = Menu(stdscr, list(BedroomChoices), "Find your glasses.")
@@ -910,11 +906,11 @@ class Game:
     def play_game(self):
         while True:
             # insert the actual game logic here
-            #self.scenes.bedroom(self.bedroom_menu)
-            #self.scenes.hallway(self.hallway_menu)
-            #self.scenes.mystery_room(self.question_menu)
-            #self.scenes.refusal(10)
-            self.scenes.ending()
+            self.scenes.bedroom(self.bedroom_menu)
+            self.scenes.hallway(self.hallway_menu)
+            self.scenes.endless_hallway()
+            self.scenes.mystery_room(self.question_menu)
+            self.scenes.refusal(10)           
             key = self.stdscr.getch()
             if key == ord('p') or key == ord('P'):
                 self.pause_menu.print_menu()
