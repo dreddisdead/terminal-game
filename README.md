@@ -6,3 +6,5 @@
 ### A terminal adventure game that plays in its own way.
 
 ### Guess there's only one way to find out why.
+
+### [Medium article here](https://medium.com/@devereauxcamryn/who-are-you-when-all-you-have-is-yourself-aeb4dd7fd716)
